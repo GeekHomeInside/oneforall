@@ -8,7 +8,7 @@ jobs:
       - image: circleci/python:3.6.3
     steps:
       - checkout
-      - working_dir: /home/circleci/project
+      - working_directory: /home/circleci/project
       - restore_cache:
           keys:
           - dependencies-
