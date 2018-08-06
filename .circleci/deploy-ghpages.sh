@@ -1,55 +1,57 @@
-#!/bin/sh
-# ideas used from https://gist.github.com/motemen/8595451
+#!/bin/bash
 
-# abort the script if there is a non-zero error
-set -e
+# Taken from :
+# https://gist.github.com/domenic/ec8b0fc8ab45f39403dd
 
-# show where we are on the machine
-pwd
+set -xe # Exit with nonzero exit code if anything fails
 
-remote=$(git config remote.origin.url)
+SOURCE_BRANCH="master"
+TARGET_BRANCH="gh-pages"
 
-siteSource="$1"
+function doCompile {
+  make doc && \
+  mv doc/* out/ && \
+  rm -rf doc
+}
 
-if [ ! -d "$siteSource" ]
-then
-    echo "Usage: $0 <site source dir>"
-    exit 1
+# Pull requests and commits to other branches shouldn't try to deploy, just build to verify
+if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]; then
+    echo "Skipping deploy; just doing a build."
+    mkdir out
+    doCompile
+    exit 0
 fi
 
-# make a directory to put the gp-pages branch
-mkdir gh-pages-branch
-cd gh-pages-branch
-# now lets setup a new repo so we can update the gh-pages branch
-git config --global user.email "$GH_EMAIL" > /dev/null 2>&1
-git config --global user.name "$GH_NAME" > /dev/null 2>&1
-git init
-git remote add --fetch origin "$remote"
+# Save some useful information
+REPO=`git config remote.origin.url`
+SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
+SHA=`git rev-parse --verify HEAD`
 
-# switch into the gh-pages branch
-if git rev-parse --verify origin/gh-pages > /dev/null 2>&1
-then
-    git checkout gh-pages
-    # delete any old site as we are going to replace it
-    # Note: this explodes if there aren't any, so moving it here for now
-    git rm -rf .
-else
-    git checkout --orphan gh-pages
-fi
-
-# copy over or recompile the new site
-cp -a "../${siteSource}/." .
-
-# stage any changes and new files
-git add -A
-# now commit, ignoring branch gh-pages doesn't seem to work, so trying skip
-git commit --allow-empty -m "Deploy to GitHub pages [ci skip]"
-# and push, but send any output to /dev/null to hide anything sensitive
-git push --force --quiet origin gh-pages > /dev/null 2>&1
-
-# go back to where we started and remove the gh-pages git repo we made and used
-# for deployment
+# Clone the existing gh-pages for this repo into doc/
+# Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deply)
+git clone $REPO out
+cd out
+git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
 cd ..
-rm -rf gh-pages-branch
 
-echo "Finished Deployment!"
+# Clean out existing contents
+rm -rf out/**/* || exit 0
+
+# Run our compile script
+doCompile
+
+# Now let's go have some fun with the cloned repo
+cd out
+git config user.name "$GH_NAME"
+git config user.email "$GH_EMAIL"
+
+# If there are no changes to the compiled out (e.g. this is a README update) then just bail.
+if git diff --quiet; then
+    echo "No changes to the output on this push; exiting."
+    exit 0
+fi
+
+# Commit the "changes", i.e. the new version.
+# The delta will show diffs between new and old versions.
+git add -A .
+git commit -m "Deploy to GitHub Pages: ${SHA}"
