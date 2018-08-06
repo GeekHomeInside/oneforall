@@ -6,9 +6,6 @@ jobs:
         - gh-pages
     docker:
       - image: circleci/python:3.6.3
-    filters:
-      branches:
-        only: master
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -22,6 +19,9 @@ jobs:
       - run:
           name: Update Pip 9.0.1 to Pip 18
           command: pip install --user --upgrade pip
+      - run:
+          name: Check Pip Version
+          command: pip --version
       - run:
           name: Install depencecies from pip
           command: pip install --user mkdocs>=1.0 mkdocs-material>=2.9.2 Pygments>=2.2 pymdown-extensions>=4.11
