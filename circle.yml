@@ -18,7 +18,7 @@ jobs:
           - dependencies-
       - run:
           name: Update Pip 9.0.1 to Pip 18
-          command: pip install --user --upgrade pip
+          command: pip install --user --upgrade pip==9.0.3
       - run:
           name: Check Pip Version
           command: pip --version
