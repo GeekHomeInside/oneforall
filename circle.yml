@@ -1,14 +1,32 @@
-general:
-  branches:
-    ignore:
-      - gh-pages
-
-test:
-  override:
-    - exit 0
-
-deployment:
-  staging:
-    branch: master
-    commands:
-      - ./.circleci/deploy-ghpages.sh docs
+version: 2
+jobs:
+  build:
+    branches:
+      ignore:
+        - gh-pages
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/repo
+    environment:
+      - SOURCE_BRANCH: master
+      - TARGET_BRANCH: gh-pages
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run:
+          name: Install dependencies
+          command: npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Run tests
+          command: npm test
+      - deploy:
+          name: Deploy
+          command:    
+            - ./.circleci/deploy-ghpages.sh docs
