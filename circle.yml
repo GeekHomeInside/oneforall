@@ -26,6 +26,9 @@ jobs:
           name: Install VirtualEnv depencecies from pip
           command: pip install --user virtualenv
       - run:
+          name: Symlink Virtualenv 
+          command: ln -s /usr/local/virtualenv /bin/sh/virtualenv
+      - run:
           name: Check dependencies from pip
           command: pip freeze
       - save_cache:
