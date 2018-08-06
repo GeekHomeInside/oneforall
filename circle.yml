@@ -14,14 +14,20 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - dependencies-
       - run:
-          name: Update Pip 9.0.1 to Pip 18
+          name: Update Pip 9.0.1 to Pip 9.0.3
           command: pip install --user --upgrade pip==9.0.3
       - run:
           name: Check Pip Version
           command: pip --version
       - run:
-          name: Install depencecies from pip
+          name: Install dependencies from pip
           command: pip install --user mkdocs>=1.0 mkdocs-material>=2.9.2 Pygments>=2.2 pymdown-extensions>=4.11 virtualenv
+      - run:
+          name: Install VirtualEnv depencecies from pip
+          command: pip install --user virtualenv
+      - run:
+          name: Check dependencies from pip
+          command: pip freeze
       - save_cache:
           paths:
             - node_modules
