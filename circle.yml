@@ -28,5 +28,4 @@ jobs:
           command: npm test
       - deploy:
           name: Deploy
-          command:    
-            - ./.circleci/deploy-ghpages.sh docs
+          command: ./.circleci/deploy-ghpages.sh docs
