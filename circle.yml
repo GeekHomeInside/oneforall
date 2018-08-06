@@ -8,6 +8,7 @@ jobs:
       - image: circleci/python:3.6.3
     steps:
       - checkout
+      - working_dir: /home/circleci/project
       - restore_cache:
           keys:
           - dependencies-
@@ -22,15 +23,6 @@ jobs:
       - run:
           name: Install dependencies from pip
           command: pip install --user mkdocs>=1.0 mkdocs-material>=2.9.2 Pygments>=2.2 pymdown-extensions>=4.11 virtualenv
-      - run:
-          name: Install VirtualEnv depencecies from pip
-          command: pip install --user virtualenv
-      - run:
-          name: Symlink Virtualenv 
-          command: ln -s /usr/local/virtualenv /bin/sh/virtualenv
-      - run:
-          name: Check dependencies from pip
-          command: pip freeze
       - save_cache:
           paths:
             - node_modules
