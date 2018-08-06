@@ -1,5 +1,9 @@
-deployment:
-  production:
-    branch: master
-    commands:
-    - ./scripts/deploy-ghpages.sh build
+language: python
+python:
+- '3.6'
+jobs:
+  include:
+  - stage: deploy
+    script: bash ./scripts/deploy-ghpages.sh build
+    on:
+      branch: develop
