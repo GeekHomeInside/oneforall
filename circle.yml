@@ -20,15 +20,12 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - dependencies-
       - run:
-          name: Install dependencies
-          command: npm install
+          name: Install depencecies from pip
+          command: pip install mkdocs>=1.0 mkdocs-material>=2.9.2 Pygments>=2.2 pymdown-extensions>=4.11
       - save_cache:
           paths:
             - node_modules
           key: dependencies-
-      - run:
-          name: Run tests
-          command: npm test
       - run:
           name: Prepare shell commands
           command: cp ./.circleci/deploy-ghpages.sh ../ && chmod +x ../deploy-ghpages.sh
