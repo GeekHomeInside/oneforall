@@ -5,27 +5,33 @@ jobs:
       ignore:
         - gh-pages
     docker:
-      - image: circleci/node:8
-    working_directory: ~/repo
-    environment:
-      - SOURCE_BRANCH: master
-      - TARGET_BRANCH: gh-pages
+      - image: circleci/python:3.6.3
+    filters:
+      branches:
+        only: master
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "59:9d:e1:76:e9:2e:47:9b:eb:d7:de:45:d1:14:32:b3"
       - checkout
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
+          - dependencies-
+          # fallback to using the latest cache if no exact match is found
+          - dependencies-
       - run:
           name: Install dependencies
           command: npm install
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: dependencies-
       - run:
           name: Run tests
           command: npm test
+      - run:
+          name: Prepare shell commands
+          command: cp ./.circleci/deploy-ghpages.sh ../ && chmod +x ../deploy-ghpages.sh
       - deploy:
           name: Deploy
-          command: ./.circleci/deploy-ghpages.sh docs
+          command: ../deploy-ghpages.sh docs
