@@ -18,7 +18,7 @@ pages:
   - Operation: operation.md
   - Troubleshooting: troubleshooting.md
 
-repo_url: https://github.com/TheFkinCompany/allspark
+repo_url: https://github.com/guiadco/geekhomeinside
 markdown_extensions:
   # For notes and stuff: http://squidfunk.github.io/mkdocs-material/extensions/admonition/
   - admonition
@@ -37,4 +37,4 @@ markdown_extensions:
   - pymdownx.mark
   - pymdownx.smartsymbols
   - pymdownx.tasklist(custom_checkbox=true)
-- pymdownx.tilde
+  - pymdownx.tilde
