@@ -21,7 +21,7 @@ jobs:
           command: pip --version
       - run:
           name: Install depencecies from pip
-          command: pip install --user mkdocs>=1.0 mkdocs-material>=2.9.2 Pygments>=2.2 pymdown-extensions>=4.11
+          command: pip install --user mkdocs>=1.0 mkdocs-material>=2.9.2 Pygments>=2.2 pymdown-extensions>=4.11 virtualenv
       - save_cache:
           paths:
             - node_modules
