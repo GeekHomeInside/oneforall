@@ -10,7 +10,7 @@ jobs:
       - checkout
       - run:
           name: Install Virtualenv dependencies for Pip
-          command: pip install -user virtualenv
+          command: pip install --user virtualenv
       - run:
           name: Prepare shell commands
           command: cp ./.circleci/deploy-ghpages.sh ../ && chmod +x ../deploy-ghpages.sh
