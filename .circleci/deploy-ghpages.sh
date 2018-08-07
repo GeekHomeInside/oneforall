@@ -30,21 +30,16 @@ SHA=`git rev-parse --verify HEAD`
 
 # Clone the existing gh-pages for this repo into doc/
 # Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deply)
-git clone $REPO
-mkdir out
+git clone $REPO out
 cd out
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
 cd ..
 
 # Clean out existing contents
-#rm -rf out/**/* || exit 0
+rm -rf out/**/* || exit 0
 
 # Run our compile script
 doCompile
-
-ls -ltra .
-
-git status
 
 # Now let's go have some fun with the cloned repo
 git config user.name "$GH_NAME"
@@ -58,7 +53,7 @@ git config user.email "$GH_EMAIL"
 
 # Commit the "changes", i.e. the new version.
 # The delta will show diffs between new and old versions.
-git add -A .
+git diff --name-only --diff-filter=M | xargs git add
+#git add -A .
 git commit -m "Deploy to GitHub Pages: ${SHA}"
-
 git push $SSH_REPO $TARGET_BRANCH
