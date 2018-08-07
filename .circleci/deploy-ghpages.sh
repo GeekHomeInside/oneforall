@@ -47,6 +47,7 @@ cd out
 ls -ltr .
 rm -rf *.yml
 rm -rf *.md
+rm -rf .*.yml
 rm -rf Makefile
 rm -rf LICENSE
 rm -rf .circleci/
