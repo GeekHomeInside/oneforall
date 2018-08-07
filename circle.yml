@@ -23,12 +23,6 @@ jobs:
       - run:
           name: Install dependencies from pip
           command: pip install --user mkdocs>=1.0 mkdocs-material>=2.9.2 Pygments>=2.2 pymdown-extensions>=4.11 virtualenv
-      - run:
-          name: Verify if you have virtualenv
-          command: which virtualenv || true
-      - run:
-          name: locate virtualenv
-          command: find / -name "virtualenv"
       - save_cache:
           paths:
             - node_modules
