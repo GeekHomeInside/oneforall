@@ -45,6 +45,8 @@ doCompile
 git config user.name "$GH_NAME"
 git config user.email "$GH_EMAIL"
 
+git status || true
+
 # If there are no changes to the compiled out (e.g. this is a README update) then just bail.
 #if git diff --quiet; then
 #    echo "No changes to the output on this push; exiting."
@@ -53,7 +55,7 @@ git config user.email "$GH_EMAIL"
 
 # Commit the "changes", i.e. the new version.
 # The delta will show diffs between new and old versions.
-git diff --name-only --diff-filter=M | xargs git add
+#git diff --name-only --diff-filter=M | xargs git add
 #git add -A .
-git commit -m "Deploy to GitHub Pages: ${SHA}"
-git push $SSH_REPO $TARGET_BRANCH
+#git commit -m "Deploy to GitHub Pages: ${SHA}"
+#git push $SSH_REPO $TARGET_BRANCH
