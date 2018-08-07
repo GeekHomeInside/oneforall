@@ -30,11 +30,10 @@ SHA=`git rev-parse --verify HEAD`
 
 # Clone the existing gh-pages for this repo into doc/
 # Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deply)
-git clone $REPO out
+git clone $REPO
+mkdir out
 cd out
-ls -ltr .
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
-ls -ltr
 cd ..
 
 # Clean out existing contents
@@ -45,13 +44,6 @@ doCompile
 
 # Now let's go have some fun with the cloned repo
 cd out
-ls -ltr .
-rm -rf *.yml
-rm -rf *.md
-rm -rf .*.yml
-rm -rf Makefile
-rm -rf LICENSE
-rm -rf .circleci/
 git config user.name "$GH_NAME"
 git config user.email "$GH_EMAIL"
 
