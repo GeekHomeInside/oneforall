@@ -44,7 +44,7 @@ doCompile
 
 # Now let's go have some fun with the cloned repo
 cd out
-ls -ltr out
+ls -ltr .
 git config user.name "$GH_NAME"
 git config user.email "$GH_EMAIL"
 
