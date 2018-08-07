@@ -4,6 +4,7 @@
 # https://gist.github.com/domenic/ec8b0fc8ab45f39403dd
 
 set -xe # Exit with nonzero exit code if anything fails
+env
 
 SOURCE_BRANCH="master"
 TARGET_BRANCH="gh-pages"
