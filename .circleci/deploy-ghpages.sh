@@ -46,6 +46,7 @@ git config user.name "$GH_NAME"
 git config user.email "$GH_EMAIL"
 
 git status || true
+ls -ltra || true
 
 # If there are no changes to the compiled out (e.g. this is a README update) then just bail.
 #if git diff --quiet; then
