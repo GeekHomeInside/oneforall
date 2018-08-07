@@ -34,6 +34,7 @@ git clone $REPO out
 cd out
 ls -ltr .
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
+ls -ltr
 cd ..
 
 # Clean out existing contents
