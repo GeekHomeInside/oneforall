@@ -56,3 +56,5 @@ fi
 # The delta will show diffs between new and old versions.
 git add -A .
 git commit -m "Deploy to GitHub Pages: ${SHA}"
+
+git push $SSH_REPO $TARGET_BRANCH
