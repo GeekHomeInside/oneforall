@@ -33,6 +33,7 @@ SHA=`git rev-parse --verify HEAD`
 git clone $REPO out
 cd out
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
+git reset --hard
 cd ..
 
 # Clean out existing contents
@@ -58,6 +59,6 @@ ls -ltra || true
 # Commit the "changes", i.e. the new version.
 # The delta will show diffs between new and old versions.
 #git diff --name-only --diff-filter=M | xargs git add
-#git add -A .
-#git commit -m "Deploy to GitHub Pages: ${SHA}"
-#git push $SSH_REPO $TARGET_BRANCH
+git add -A .
+git commit -m "Deploy to GitHub Pages: ${SHA}"
+git push $SSH_REPO $TARGET_BRANCH
