@@ -16,7 +16,7 @@ function doCompile {
 }
 
 # Pull requests and commits to other branches shouldn't try to deploy, just build to verify
-#if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "$SOURCE_BRANCH" ]; then
+#if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$CIRCLE_BRANCH" != "$SOURCE_BRANCH" ]; then
 #    echo "Skipping deploy; just doing a build."
 #    mkdir out
 #    doCompile
@@ -32,17 +32,19 @@ SHA=`git rev-parse --verify HEAD`
 # Create a new empty branch if gh-pages doesn't exist yet (should only happen on first deply)
 git clone $REPO out
 cd out
+ls -ltr .
 git checkout $TARGET_BRANCH || git checkout --orphan $TARGET_BRANCH
 cd ..
 
 # Clean out existing contents
 rm -rf out/**/* || exit 0
-
+ls -ltr out/
 # Run our compile script
 doCompile
 
 # Now let's go have some fun with the cloned repo
 cd out
+ls -ltr out
 git config user.name "$GH_NAME"
 git config user.email "$GH_EMAIL"
 
