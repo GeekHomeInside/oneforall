@@ -31,7 +31,7 @@ jobs:
       - run: pip install --user -r ./.circleci/requirements.txt
       - run: PATH=$PATH:/root/.local/bin ansible-lint ./playbooks/*.yml -c .circleci/.ansible-lint
       - run: PATH=$PATH:/root/.local/bin ansible-lint ./roles/**/**/*.yml -c .circleci/.ansible-lint
-  test-vagrant:
+  test-playbook:
     docker:
       - image: centos:7.5.1804
     working_directory: ~/repo
@@ -41,9 +41,9 @@ jobs:
             - "6f:9b:63:ef:04:14:96:51:f1:c2:4f:d4:f5:7a:77:dd"
       - run: yum -y install git wget epel-release
       - run: yum -y install python-pip
-      - run: pip install --user -r ./.circleci/vagrant-requirements.txt
       - run: git clone https://github.com/guiadco/geekhomeinside.git
       - run: cd geekhomeinside/
+      - run: pip install --user -r ./.circleci/vagrant-requirements.txt
       - run: ansible-playbook -i hosts playbooks/install.yml
 
 
@@ -53,4 +53,4 @@ workflows:
     jobs:
       - test-ansible-lint
       - build-docs
-      - test-vagrant
+      - test-playbook
