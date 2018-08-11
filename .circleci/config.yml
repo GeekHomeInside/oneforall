@@ -28,6 +28,8 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "6f:9b:63:ef:04:14:96:51:f1:c2:4f:d4:f5:7a:77:dd"
+      - run: yum -y install git wget epel-release
+      - run: yum -y install python-pip
       - run: pip install --user -r ./.circleci/requirements.txt
       - run: PATH=$PATH:/root/.local/bin ansible-lint ./playbooks/*.yml -c .circleci/.ansible-lint
       - run: PATH=$PATH:/root/.local/bin ansible-lint ./roles/**/**/*.yml -c .circleci/.ansible-lint
