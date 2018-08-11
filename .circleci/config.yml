@@ -42,9 +42,11 @@ jobs:
       - run: yum -y install git wget epel-release
       - run: yum -y install python-pip
       - run: git clone https://github.com/guiadco/geekhomeinside.git
+      - run: mv geekhomeinside/* .
+      - run: ls -ltra
       - run: pip install --upgrade pip
-      - run: pip install -r ./geekhomeinside/.circleci/vagrant-requirements.txt
-      - run: ansible-playbook -i hosts ./geekhomeinside/playbooks/install.yml
+      - run: pip install -r .circleci/vagrant-requirements.txt
+      - run: ansible-playbook -i hosts playbooks/install.yml
 
 
 workflows:
