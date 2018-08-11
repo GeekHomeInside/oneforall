@@ -1,6 +1,6 @@
-site_name: Allspark
-site_description: The developper toolbox.
-site_author: The fkin company
+site_name: GeekHomeInside
+site_description: The Home toolbox.
+site_author: GuiAdCo
 theme:
   name: 'material'
   palette:
@@ -19,7 +19,7 @@ nav:
   - Operation: operation.md
   - Troubleshooting: troubleshooting.md
 
-repo_url: https://github.com/TheFkinCompany/allspark
+repo_url: https://github.com/guiadco/geekhomeinside
 markdown_extensions:
   # For notes and stuff: http://squidfunk.github.io/mkdocs-material/extensions/admonition/
   - admonition
