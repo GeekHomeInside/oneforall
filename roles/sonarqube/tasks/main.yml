@@ -10,7 +10,7 @@
 - name: Starting Sonarqube master
   docker_container:
     name: sonarqube
-    image: "{{ allspark_sonarqube.image }}"
+    image: "{{ downloads.sonarqube.image }}:{{ downloads.sonarqube.tag }}"
     state: "{{ allspark_sonarqube.enabled and 'started' or 'absent'}}"
     networks:
       - name: allspark
@@ -20,4 +20,5 @@
       "traefik.backend": "sonarqube"
       "traefik.frontend.rule": "Host:sonarqube.{{ allspark_root_domain }}"
       "traefik.enable": "true"
+      "heritage": "allspark"
     restart_policy: always

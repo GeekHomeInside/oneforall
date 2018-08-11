@@ -8,11 +8,16 @@
     - jenkins_plugins
   when: allspark_jenkins.enabled
 
+- name: Generate User Config
+  template:
+    src: templates/jenkins_security.groovy.j2
+    dest: "{{ allspark_root_directory }}/config/jenkins_security.groovy"
+  when: allspark_jenkins.enabled
 
 - name: Starting Jenkins master
   docker_container:
     name: jenkins
-    image: "{{ allspark_jenkins.image }}"
+    image: "{{ downloads.jenkins.image }}:{{ downloads.jenkins.tag }}"
     state: "{{ allspark_jenkins.enabled and 'started' or 'absent'}}"
     networks:
       - name: allspark
@@ -29,4 +34,5 @@
       "traefik.port": "8080"
       "traefik.frontend.rule": "Host:jenkins.{{ allspark_root_domain }}"
       "traefik.enable": "true"
+      "heritage": "allspark"
     restart_policy: always
