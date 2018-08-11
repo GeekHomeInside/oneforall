@@ -46,7 +46,7 @@ jobs:
       - run: sudo apt-get install -y python-pip
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
       - run: pip install --upgrade pip
-      - run: sudo apt-get install ansible
+      - run: sudo apt-get install -y ansible
       - run: sudo ansible-playbook -i hosts playbooks/install.yml
 
 workflows:
