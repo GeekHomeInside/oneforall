@@ -5,6 +5,5 @@ verbosity: 1
 exclude_paths:
   - ./roles/**/files/
   - ./role/**/templates/
-#
-#rulesdir:
-# - ./rule/directory
+  - ./role/**/defaults/
+
