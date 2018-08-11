@@ -50,8 +50,8 @@ jobs:
       - run: sudo ansible --version
       - run: sudo docker --version
       - run: sudo cp /home/circleci/repo/.circleci/ansible.cfg /etc/ansible/ansible.cfg
-      - run: sudo service status docker
-      - run: sudo service start docker
+      - run: sudo service docker status
+      - run: sudo service docker start
       - run: sudo ansible-playbook -i hosts playbooks/install.yml
 
 workflows:
