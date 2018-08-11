@@ -43,7 +43,7 @@ jobs:
       - run: yum -y install python-pip
       - run: git clone https://github.com/guiadco/geekhomeinside.git
       - run: cd geekhomeinside/
-      - run: pip install --user -r ./.circleci/vagrant-requirements.txt
+      - run: pip install --user -r .circleci/vagrant-requirements.txt
       - run: ansible-playbook -i hosts playbooks/install.yml
 
 
