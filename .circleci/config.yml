@@ -49,6 +49,7 @@ jobs:
       - run: sudo apt-get install -y ansible
       - run: sudo ansible --version
       - run: sudo docker --version
+      - run: sudo pip freeze
       - run: sudo cp /home/circleci/repo/.circleci/ansible.cfg /etc/ansible/ansible.cfg
       - run: sudo service docker status
       - run: sudo ansible-playbook -i hosts playbooks/install.yml
