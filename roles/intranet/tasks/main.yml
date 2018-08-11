@@ -1,0 +1,48 @@
+- name: Docker volumes creation for Intranet Web Server
+  docker_volume:
+    name: "allspark_{{ item }}"
+  with_items:
+        - intranet_data
+        - intranet_modules
+        - intranet_profiles
+        - intranet_themes
+        - intranet_db
+
+- name: Setup Drupal as Intranet service
+  docker_container:
+    name: intranet
+    image: "{{ allspark_intranet.image }}"
+    volumes:
+      - "allspark_intranet_data:/var/www/html/sites"
+      - "allspark_intranet_modules:/var/www/html/modules"
+      - "allspark_intranet_profiles:/var/www/html/profiles"
+      - "allspark_intranet_themes:/var/www/html/themes"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    hostname: "intranet.{{ allspark_root_domain }}"
+    networks:
+      - name: allspark
+    labels:
+      "traefik.backend": "intranet"
+      "traefik.frontend.rule": "Host:intranet.{{ allspark_root_domain }}"
+      "traefik.enable": "true"
+    restart_policy: always
+
+- name: Setup database for intranet as database service
+  docker_container:
+    name: intradb
+    image: "{{ allspark_database_drupal.image }}"
+    volumes:
+      - "allspark_intranet_db:/var/lib/mysql"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - name: allspark
+    env:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "8SHALW6DX!IE$5cW2*//"
+      POSTGRES_DB: "drupal"
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+    labels:
+      "traefik.backend": "intradb"
+      "traefik.frontend.rule": "Host:intradb.{{ allspark_root_domain }}"
+      "traefik.enable": "true"
+    restart_policy: always

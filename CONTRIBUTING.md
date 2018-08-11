@@ -69,4 +69,3 @@ If you want to review your work while editing, you can use :
 # Serve the documentation on http://localhost:8000
 make doc-dev
 ```
-

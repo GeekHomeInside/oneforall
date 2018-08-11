@@ -1,0 +1,22 @@
+- name: Docker volumes creation for Intranet Web Server
+  docker_volume:
+    name: "allspark_kodi_db"
+- name: Setup database for Kodi as database service
+  docker_container:
+    name: kodidb
+    image: "{{ allspark_database_kodi.image }}"
+    volumes:
+      - "allspark_kodi_db:/var/lib/mysql"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    hostname: "kodidb.{{ allspark_root_domain }}"
+    networks:
+      - name:  bridge
+    env:
+      MYSQL_ROOT_PASSWORD: "8SHALW6DX!IE$5cW2*//"
+    ports:
+      - "3307:3306"
+    labels:
+      "traefik.backend": "kodidb"
+      "traefik.frontend.rule": "Host:kodidb.{{ allspark_root_domain }}"
+      "traefik.enable": "true"
+    restart_policy: always

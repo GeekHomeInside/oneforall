@@ -1,0 +1,17 @@
+- name: Setup Frontal Keepass as Exposed Keepass Database service
+  docker_container:
+    name: keepass
+    image: "{{ allspark_keepass.image }}"
+    volumes:
+      - "/var/www/virtual/keepass:/var/www/html"
+      # - "/etc/letsencrypt/live/geekhomeinside.com/fullchain.pem:/etc/ssl/certs/ssl-cert-snakeoil.pem"
+      # - "/etc/letsencrypt/live/geekhomeinside.com/privkey.pem:/etc/ssl/private/ssl-cert-snakeoil.key"
+      - "allspark_logs_data:/var/log/apache2"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - name: allspark
+    labels:
+      "traefik.backend": "keepass"
+      "traefik.frontend.rule": "Host:keepass.{{ allspark_root_domain }}"
+      "traefik.enable": "true"
+    restart_policy: always
