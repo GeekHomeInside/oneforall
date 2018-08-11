@@ -59,6 +59,7 @@ jobs:
             - "6f:9b:63:ef:04:14:96:51:f1:c2:4f:d4:f5:7a:77:dd"
       - run: pip install docker
       - run: pip install molecule
+      - run: find / -name "molecule" || true
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
       - run: molecule test
 
