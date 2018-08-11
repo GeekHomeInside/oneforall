@@ -42,8 +42,8 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "6f:9b:63:ef:04:14:96:51:f1:c2:4f:d4:f5:7a:77:dd"
-      - run: yum -y install git wget epel-release
-      - run: yum -y install python-pip
+      - run: apt-get install -y git
+      - run: apt-get install -y python-pip
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
       - run: pip install --upgrade pip
       - run: pip install -r .circleci/vagrant-requirements.txt
