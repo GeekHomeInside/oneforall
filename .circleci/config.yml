@@ -47,8 +47,11 @@ jobs:
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
       - run: pip install --upgrade pip
       - run: sudo apt-get install -y ansible
+      - run: sudo ansible --version
+      - run: sudo docker --version
       - run: sudo cp /home/circleci/repo/.circleci/ansible.cfg /etc/ansible/ansible.cfg
-      - run: sudo systemctl start docker
+      - run: sudo service status docker
+      - run: sudo service start docker
       - run: sudo ansible-playbook -i hosts playbooks/install.yml
 
 workflows:
