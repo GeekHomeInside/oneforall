@@ -47,7 +47,7 @@ jobs:
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
       - run: pip install --upgrade pip
       - run: pip install -r .circleci/vagrant-requirements.txt
-      - run: sudo ansible-playbook -i hosts playbooks/install.yml
+      - run:  PATH=$PATH:/root/.local/bin sudo ansible-playbook -i hosts playbooks/install.yml
 
 workflows:
   version: 2
