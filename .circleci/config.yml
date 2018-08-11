@@ -42,6 +42,7 @@ jobs:
       - run: yum -y install git wget epel-release
       - run: yum -y install python-pip
       - run: git clone https://github.com/guiadco/geekhomeinside.git
+      - run: ls -ltra
       - run: cd geekhomeinside/
       - run: ls -ltra
       - run: pip install --user --upgrade pip
