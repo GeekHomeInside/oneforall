@@ -33,11 +33,7 @@ jobs:
       - run: PATH=$PATH:/root/.local/bin ansible-lint ./roles/**/**/*.yml -c .circleci/.ansible-lint
   test-playbook:
     machine: true
-#    docker:
-#      - image: centos:7.5.1804
     working_directory: ~/repo
-    environment:
-      - ANSIBLE_CONFIG : .circleci/ansible.cfg
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -49,6 +45,7 @@ jobs:
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
       - run: pip install --upgrade pip
       - run: sudo apt-get install -y ansible
+      - run: export ANSIBLE_CONFIG=".circleci/ansible.cfg"
       - run: sudo ansible-playbook -i hosts playbooks/install.yml
 
 workflows:
