@@ -38,6 +38,3 @@ workflows:
     jobs:
       - test-ansible-lint
       - build-docs
-      filters:
-        branches:
-          only: master
