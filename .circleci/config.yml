@@ -43,6 +43,7 @@ jobs:
       - run: yum -y install python-pip
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
       - run: pip install --upgrade pip
+      - run: export PATH=$PATH:/root/repo/roles
       - run: pip install -r .circleci/vagrant-requirements.txt
       - run: ansible-playbook -i hosts playbooks/install.yml
 
