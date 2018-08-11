@@ -42,10 +42,10 @@ jobs:
       - run: yum -y install git wget epel-release
       - run: yum -y install python-pip
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
-      - run: cp .circleci/ansible.cfg /usr/lib/python2.7/site-packages/ansible/galaxy/data/container_enabled/tests/ansible.cfg
       - run: pip install --upgrade pip
       - run: pip install -r .circleci/vagrant-requirements.txt
       - run: find / -name "ansible.cfg" || true
+      - run: cp .circleci/ansible.cfg /usr/lib/python2.7/site-packages/ansible/galaxy/data/container_enabled/tests/ansible.cfg
       - run: ansible-playbook -i hosts playbooks/install.yml
 
 workflows:
