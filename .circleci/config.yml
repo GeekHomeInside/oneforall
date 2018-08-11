@@ -45,7 +45,7 @@ jobs:
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
       - run: pip install --upgrade pip
       - run: sudo apt-get install -y ansible
-      - run: export ANSIBLE_CONFIG=".circleci/ansible.cfg"
+      - run: export ANSIBLE_CONFIG="~/repo/.circleci/ansible.cfg"
       - run: sudo ansible-playbook -i hosts playbooks/install.yml
 
 workflows:
