@@ -70,4 +70,4 @@ workflows:
     jobs:
       - test-ansible-lint
       - build-docs
-      - test-playbook
+#      - test-playbook
