@@ -5,6 +5,7 @@
 - name: Docker - Ensuring daemon is started
   systemd: state=started name=docker
   become: true
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
 
 - name: FS - Ensuring Allspark directory
   file:
