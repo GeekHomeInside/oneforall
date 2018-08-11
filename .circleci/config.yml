@@ -39,13 +39,15 @@ jobs:
           fingerprints:
             - "6f:9b:63:ef:04:14:96:51:f1:c2:4f:d4:f5:7a:77:dd"
       - run: sudo apt-get update -y
-      - run: sudo apt-get upgrade -y
+      - run: sudo apt-get install -y software-properties-common
+      - run: sudo apt-add-repository ppa:ansible/ansible
+      - run: sudo apt-get update -y
       - run: sudo apt-get install -y git
       - run: sudo apt-get install -y python-pip
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
       - run: pip install --upgrade pip
       - run: sudo apt-get install -y ansible
-      - run: cp ~/repo/.circleci/ansible.cfg ~/repo/ansible.cfg
+      - run: cp ~/repo/.circleci/ansible.cfg /etc/ansible/ansible.cfg
       - run: sudo ansible-playbook -i hosts playbooks/install.yml
 
 workflows:
