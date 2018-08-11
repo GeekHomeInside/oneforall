@@ -42,6 +42,9 @@ jobs:
       - run: yum -y install git wget epel-release
       - run: yum -y install python-pip
       - run: pip install --user -r ./.circleci/vagrant-requirements.txt
+      - run: git clone https://github.com/guiadco/geekhomeinside.git
+      - run: cd geekhomeinside/
+      - run: ansible-playbook -i hosts playbooks/install.yml
 
 
 workflows:
