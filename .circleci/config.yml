@@ -47,22 +47,20 @@ jobs:
 #      - run: pip install --upgrade pip
 #      - run: pip install -r .circleci/vagrant-requirements.txt
 #      - run: ansible-playbook -i hosts playbooks/install.yml
-  machine:
-    python:
-      version: 2.7.10
-    services:
-      - docker
-
-  dependencies:
-    pre:
-      - pip install docker
-      - pip install molecule
-
-  deployment:
-    prod:
-      branch: master
-      commands:
-        - molecule test
+  test-playbook:
+    docker:
+      - image: python:2.7
+    working_directory: ~/repo
+    environment:
+      - ANSIBLE_CONFIG : .circleci/ansible.cfg
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "6f:9b:63:ef:04:14:96:51:f1:c2:4f:d4:f5:7a:77:dd"
+      - run: pip install docker
+      - run: pip install molecule
+      - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
+      - run: molecule test
 
 workflows:
   version: 2
@@ -70,7 +68,4 @@ workflows:
     jobs:
       - test-ansible-lint
       - build-docs
-#      - test-playbook
-      - machine
-      - dependencies
-      - deployment
+      - test-playbook
