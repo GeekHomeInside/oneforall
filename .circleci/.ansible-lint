@@ -4,6 +4,6 @@ use_default_rules: true
 verbosity: 1
 exclude_paths:
   - ./roles/**/files/
-  - ./role/**/templates/
-  - ./role/**/defaults/
+  - ./roles/**/templates/
+  - ./roles/**/defaults/
 
