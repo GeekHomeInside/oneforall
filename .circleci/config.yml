@@ -53,7 +53,7 @@ jobs:
       - run: pip freeze
       - run: sudo cp /home/circleci/repo/.circleci/ansible.cfg /etc/ansible/ansible.cfg
       - run: sudo cp /home/circleci/repo/.circleci/testall.yml /home/circleci/repo/group_vars/all.yml
-      - run: sudo ansible-playbook -i hosts playbooks/install.yml
+      - run: sudo ansible-playbook -i hosts playbooks/install.yml -vvv
       - run: pip --version
       - run: pip freeze
       - run: sudo docker ps -a
