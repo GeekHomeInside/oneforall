@@ -45,14 +45,17 @@ jobs:
       - run: sudo apt-get install -y git
       - run: sudo apt-get install -y python-pip
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
-      - run: pip install --upgrade pip
+      - run: sudo pip install --upgrade pip
       - run: sudo apt-get install -y ansible
       - run: sudo pip --version
       - run: sudo ansible --version
       - run: sudo docker --version
       - run: sudo pip freeze
       - run: sudo cp /home/circleci/repo/.circleci/ansible.cfg /etc/ansible/ansible.cfg
+      - run: sudo cp /home/circleci/repo/.circleci/testall.yml /home/circleci/repo/group_vars/all.yml
       - run: sudo ansible-playbook -i hosts playbooks/install.yml
+      - run: sudo pip --version
+      - run: sudo pip freeze
       - run: sudo docker ps -a
       - run: sudo docker volume ls
 
