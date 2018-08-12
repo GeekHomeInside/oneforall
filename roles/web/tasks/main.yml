@@ -1,11 +1,13 @@
 - name: Docker volumes creation for Frontal Web Server
   docker_volume:
     name: "allspark_logs_data"
+  when: allspark_web.enabled
 
 - name: Setup Web WWW as Frontal Web Server service
   docker_container:
     name: geekhomeinside
-    image: "{{ allspark_www.image }}"
+    image: "{{ downloads.www.image }}:{{ downloads.www.tag }}"
+    state: "{{ allspark_web.enabled and 'started' or 'absent'}}"
     volumes:
       - "/var/www/html:/var/www/html"
       - "allspark_logs_data:/var/log/apache2"

@@ -17,7 +17,7 @@ allspark_monitoring:
 
 allspark_traefik:
   selfsigned:
-    enabled: false
+    enabled: true
     # For example country: FR
     country: XX
     state: state
@@ -27,20 +27,20 @@ allspark_traefik:
     common_name: "*.{{ allspark_root_domain }}"
 
 allspark_rocketchat:
-  enabled: false
+  enabled: true
 
 allspark_gitlab:
-  enabled: false
+  enabled: true
   with_runner: false
   lfs_enabled: true
 
 allspark_jenkins:
-  enabled: false
+  enabled: true
   # Toggle default plugin import from release.
   import_plugins: true
 
 allspark_sonarqube:
-  enabled: false
+  enabled: true
 
 allspark_backup:
   image: blacklabelops/volumerize
@@ -49,16 +49,16 @@ allspark_mattermost:
   enabled: true
 
 allspark_web:
-  enabled: false
+  enabled: true
 
 allspark_intranet:
-  enabled: false
+  enabled: true
 
 allspark_kodidb:
-  enabled: false
+  enabled: true
 
 allspark_keepass:
-  enabled: false
+  enabled: true
 
 ### Release configuration
 # Should not be here

@@ -7,11 +7,13 @@
         - intranet_profiles
         - intranet_themes
         - intranet_db
+  when: allspark_intranet.enabled
 
 - name: Setup Drupal as Intranet service
   docker_container:
     name: intranet
-    image: "{{ allspark_intranet.image }}"
+    image: "{{ downloads.intranet.image }}:{{ downloads.intranet.tag }}"
+    state: "{{ allspark_intranet.enabled and 'started' or 'absent'}}"
     volumes:
       - "allspark_intranet_data:/var/www/html/sites"
       - "allspark_intranet_modules:/var/www/html/modules"
@@ -30,7 +32,8 @@
 - name: Setup database for intranet as database service
   docker_container:
     name: intradb
-    image: "{{ allspark_database_drupal.image }}"
+    image: "{{ downloads.database_drupal.image }}:{{ downloads.database_drupal.tag }}"
+    state: "{{ allspark_intranet.enabled and 'started' or 'absent'}}"
     volumes:
       - "allspark_intranet_db:/var/lib/mysql"
       - "/var/run/docker.sock:/var/run/docker.sock"

@@ -1,7 +1,8 @@
 - name: Setup Frontal Keepass as Exposed Keepass Database service
   docker_container:
     name: keepass
-    image: "{{ allspark_keepass.image }}"
+    image: "{{ downloads.keepass.image }}:{{ downloads.keepass.tag }}"
+    state: "{{ allspark_keepass.enabled and 'started' or 'absent'}}"
     volumes:
       - "/var/www/virtual/keepass:/var/www/html"
       # - "/etc/letsencrypt/live/geekhomeinside.com/fullchain.pem:/etc/ssl/certs/ssl-cert-snakeoil.pem"

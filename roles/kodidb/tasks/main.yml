@@ -1,10 +1,13 @@
 - name: Docker volumes creation for Intranet Web Server
   docker_volume:
     name: "allspark_kodi_db"
+  when: allspark_kodidb.enabled
+
 - name: Setup database for Kodi as database service
   docker_container:
     name: kodidb
-    image: "{{ allspark_database_kodi.image }}"
+    image: "{{ downloads.database_kodi.image }}:{{ downloads.database_kodi.tag }}"
+    state: "{{ allspark_kodidb.enabled and 'started' or 'absent'}}"
     volumes:
       - "allspark_kodi_db:/var/lib/mysql"
       - "/var/run/docker.sock:/var/run/docker.sock"

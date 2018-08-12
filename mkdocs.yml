@@ -14,6 +14,7 @@ nav:
   - Index: index.md
   - Install: install.md
   - Configuration: configuration.md
+  - Security: security.md
   - Roadmap: roadmap.md
   - Architecture: architecture.md
   - Operation: operation.md
