@@ -42,7 +42,7 @@ jobs:
       - run: sudo apt-add-repository ppa:ansible/ansible
       - run: sudo apt-get update -y
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
-      - run: pip install --upgrade pip
+      - run: pip install --user --upgrade pip
       - run: sudo apt-get install -y ansible
       - run: sudo cp /home/circleci/repo/.circleci/ansible.cfg /etc/ansible/ansible.cfg
       - run: sudo cp /home/circleci/repo/.circleci/testall.yml /home/circleci/repo/group_vars/all.yml
