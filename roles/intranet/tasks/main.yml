@@ -32,7 +32,7 @@
 - name: Setup database for intranet as database service
   docker_container:
     name: intradb
-    image: "{{ downloads.database_drupal.image }}:{{ downloads.database_drupal.tag }}"
+    image: "{{ downloads.intradb.image }}:{{ downloads.intradb.tag }}"
     state: "{{ allspark_intranet.enabled and 'started' or 'absent'}}"
     volumes:
       - "allspark_intranet_db:/var/lib/mysql"

@@ -6,7 +6,7 @@
 - name: Setup Web WWW as Frontal Web Server service
   docker_container:
     name: geekhomeinside
-    image: "{{ downloads.www.image }}:{{ downloads.www.tag }}"
+    image: "{{ downloads.web.image }}:{{ downloads.web.tag }}"
     state: "{{ allspark_web.enabled and 'started' or 'absent'}}"
     volumes:
       - "/var/www/html:/var/www/html"
@@ -15,7 +15,7 @@
     networks:
       - name: allspark
     labels:
-      "traefik.backend": "www"
+      "traefik.backend": "web"
       "traefik.frontend.rule": "Host:{{ allspark_root_domain }}"
       "traefik.enable": "true"
     restart_policy: always
