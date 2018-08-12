@@ -40,7 +40,7 @@
     
     
       
-        <title>Architecture - GeekHomeInside</title>
+        <title>Security - GeekHomeInside</title>
       
     
     
@@ -102,7 +102,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="../#architecture" tabindex="1" class="md-skip">
+      <a href="../#security" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -128,7 +128,7 @@
                 GeekHomeInside
               </span>
               <span class="md-header-nav__topic">
-                Architecture
+                Security
               </span>
             
           
@@ -291,56 +291,11 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Architecture
-      </label>
-    
-    <a href="./" title="Architecture" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../architecture/" title="Architecture" class="md-nav__link">
       Architecture
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#components" title="Components" class="md-nav__link">
-    Components
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#playbooks" title="Playbooks" class="md-nav__link">
-    Playbooks
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
     
@@ -385,29 +340,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#components" title="Components" class="md-nav__link">
-    Components
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#playbooks" title="Playbooks" class="md-nav__link">
-    Playbooks
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -418,97 +350,10 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/guiadco/geekhomeinside/edit/master/docs/architecture.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/guiadco/geekhomeinside/edit/master/docs/security.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="architecture">Architecture</h1>
-<h2 id="components">Components</h2>
-<table>
-<thead>
-<tr>
-<th>Components</th>
-<th>Usage</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Gitlab</td>
-<td>Source code management</td>
-</tr>
-<tr>
-<td></td>
-<td>Continuous integration / delivery</td>
-</tr>
-<tr>
-<td></td>
-<td>Work planning</td>
-</tr>
-<tr>
-<td></td>
-<td>Issue tracking</td>
-</tr>
-<tr>
-<td>Portainer</td>
-<td>Container management</td>
-</tr>
-<tr>
-<td>RocketChat</td>
-<td>Instant chat (Slack like)</td>
-</tr>
-<tr>
-<td>Grafana</td>
-<td>Monitoring</td>
-</tr>
-<tr>
-<td>Prometheus</td>
-<td>Metrics scraping / store</td>
-</tr>
-<tr>
-<td>CAdvisor</td>
-<td>Container metrics</td>
-</tr>
-<tr>
-<td>Node exporter</td>
-<td>System metrics</td>
-</tr>
-<tr>
-<td>Sonarqube</td>
-<td>Continuous Inspection</td>
-</tr>
-<tr>
-<td>Traefik</td>
-<td>Dynamic reverse proxy</td>
-</tr>
-<tr>
-<td>Volumerize</td>
-<td>Backup and Restore solution for Docker volume backups</td>
-</tr>
-<tr>
-<td>MatterMost</td>
-<td>Default Instant Chat (Slack like)</td>
-</tr>
-</tbody>
-</table>
-<h2 id="playbooks">Playbooks</h2>
-<p>All Playbooks are stored in the folder <code class="codehilite">playbooks/</code></p>
-<ul>
-<li><code class="codehilite">release.yml</code></li>
-</ul>
-<blockquote>
-<p>Package an Allspark release in a <code class="codehilite"><span class="na">.tar.gz</span></code> file</p>
-</blockquote>
-<ul>
-<li><code class="codehilite">setup.yml</code></li>
-</ul>
-<blockquote>
-<p>Load a packaged Allspark release into the system</p>
-</blockquote>
-<ul>
-<li><code class="codehilite">install.yml</code></li>
-</ul>
-<blockquote>
-<p>Install Allspark on the machine (either with an internet access or after using <code class="codehilite">setup.yml</code> playbook)</p>
-</blockquote>
+                <h1 id="security">Security</h1>
                 
                   
                 
@@ -525,41 +370,6 @@
       
         
 <footer class="md-footer">
-  
-    <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
-        
-          <a href="../roadmap/" title="Roadmap" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
-            </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Previous
-                </span>
-                Roadmap
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../operation/" title="Operation" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Operation
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
-        
-      </nav>
-    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

@@ -545,45 +545,24 @@
 <h2 id="requirements">Requirements</h2>
 <h3 id="on-the-allspark-machine">On the allspark machine</h3>
 <ul>
-<li>Docker ( tested with version 18.06 )</li>
+<li>Docker ( tested with version 18.06.0 )</li>
 </ul>
 <h3 id="on-the-control-machine">On the control machine</h3>
 <ul>
 <li>Ansible ( tested with version 2.5.5 )</li>
 </ul>
 <h2 id="ansible-playbook">Ansible playbook</h2>
-<ul>
-<li>Edit the file <code class="codehilite">group_vars/all.yml</code> to fit with
-your needs, like:</li>
-<li>The <code class="codehilite">allspark_root_domain</code> to use your domain name
-    (each component will be exposed as a subdomain).</li>
-<li>Enable or disable component using their <code class="codehilite">enabled</code> boolean toggle</li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You can customize the image or tag for a component by overriding the <code class="codehilite">component_image</code> and <code class="codehilite">component_tag</code>, using either :</p>
-<ul>
-<li><a href="https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#passing-variables-on-the-command-line">Ansible extra vars</a></li>
-<li>Add those variables to your <code class="codehilite">group_vars/all.yml</code> file.</li>
-</ul>
-<p><em>e.g</em>: (group_vars)
-<div class="codehilite"><pre><span></span><span class="c1"># Change gitlab-ce to gitlab-ee</span>
-<span class="l l-Scalar l-Scalar-Plain">gitlab_image</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">gitlab_ee</span>
-<span class="l l-Scalar l-Scalar-Plain">gitlab_tag</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">latest</span>
-</pre></div>
-You can access the complete list of available components in the <a href="https://github.com/TheFkinCompany/allspark/blob/master/roles/download/defaults/main.yml">roles/downloads/defaults/main.yml</a> file.</p>
-</div>
+<p>If you are on to adapt the configuration see the <a href="../configuration/">configuration pages</a></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>For offline install, the images configuration must be the same on both end.</p>
 </div>
-<p>If you are on a migration see the <a href="https://github.com/TheFkinCompany/allspark/blob/master/docs/pages/operation.md">operation pages</a></p>
 <p>If you are on a migration see the <a href="../operation/">operation pages</a></p>
 <h3 id="online-install">Online install</h3>
 <ul>
 <li>Change the hosts file to point to the allspark machine.</li>
 </ul>
-<div class="codehilite"><pre><span></span>ansible-playbook -i hosts install.yml
+<div class="codehilite"><pre><span></span>ansible-playbook -i hosts playbooks/install.yml
 </pre></div>
 
 <p>At this point, you will be able to see component show up along with their access URL
@@ -597,7 +576,7 @@ at <code class="codehilite">ingress.YOUR_ROOT_DOMAIN</code>.</p>
 <div class="superfences-tabs">
 <input name="__tabs_1" type="radio" id="__tab_1_0" checked="checked" />
 <label for="__tab_1_0">Bash</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span>ansible-playbook -i hosts release.yml
+<div class="superfences-content"><div class="codehilite"><pre><span></span>ansible-playbook -i hosts playbooks/release.yml
 </pre></div></div>
 <input name="__tabs_1" type="radio" id="__tab_1_1" />
 <label for="__tab_1_1">hosts</label>
@@ -610,15 +589,15 @@ This file needs to be copied along with the <code class="codehilite">group_vars<
 directory to the offline allspark machine.</p>
 <h4 id="1-on-the-offline-allspark-machine">1. On the offline allspark machine</h4>
 <ul>
-<li>Import the <code class="codehilite">group_vars</code> directory and the relase <code class="codehilite"><span class="na">.tar.gz</span></code></li>
+<li>Import the <code class="codehilite">group_vars</code> directory and the release <code class="codehilite"><span class="na">.tar.gz</span></code></li>
 <li>Set the <code class="codehilite">allspark_release_destination</code> in the <code class="codehilite">group_vars/all.yml</code> file to point to the release.</li>
 <li>Set the <code class="codehilite">allspark_release_tmp_directory</code> to point to somwhere with at least 10Go of free space</li>
 </ul>
 <div class="superfences-tabs">
 <input name="__tabs_2" type="radio" id="__tab_2_0" checked="checked" />
 <label for="__tab_2_0">Bash</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span>ansible-playbook -i hosts setup.yml
-ansible-playbook -i hosts install.yml
+<div class="superfences-content"><div class="codehilite"><pre><span></span>ansible-playbook -i hosts playbooks/setup.yml
+ansible-playbook -i hosts playbooks/install.yml
 </pre></div></div>
 <input name="__tabs_2" type="radio" id="__tab_2_1" />
 <label for="__tab_2_1">hosts</label>
