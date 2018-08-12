@@ -90,17 +90,6 @@
   become: true
   register: user_task
 
-# - name: Reset ssh connection
-#   meta: reset_connection
-#   when: user_task is changed
-#   failed_when: false
-
-# Below is an ugly hack, because of an issue with
-# `meta: reset_connection`:
-## ERROR! Cannot reset connection
-## b'Control socket connect(/home/$USER/.ansible/cp/276d6f8b70): No such file or directory\r\n'
-#
-# So we use this trick to force ansible to reconnect
 - name: Remove cp dir to force ssh reconnection.
   file:
     path: ~/.ansible/cp
