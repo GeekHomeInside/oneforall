@@ -55,6 +55,7 @@ jobs:
       - run: sudo apt-get upgrade -y
       - run: pip install --upgrade pip
       - run: pip install --upgrade docker
+      - run: pip install --upgrade docker-py
       - run: pip install --upgrade pyopenssl
       - run: pip freeze
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
