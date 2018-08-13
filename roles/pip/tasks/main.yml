@@ -7,12 +7,20 @@
     - data
     - data/secrets
 
-- name: send [Pip] Requirements to remote server
-  copy:
-    src: files/requirements.txt
-    dest: "{{ allspark_root_directory }}/config/pip-requirements.txt"
+#- name: send [Pip] Requirements to remote server
+#  copy:
+#    src: files/requirements.txt
+#    dest: "{{ allspark_root_directory }}/config/pip-requirements.txt"
 
 - name: Installing python libraries using requirements file
   pip:
-    requirements: "{{ allspark_root_directory }}/config/pip-requirements.txt"
-    virtualenv_python: "python2.7"
+    name: docker-py
+  become: true
+#    requirements: "{{ allspark_root_directory }}/config/pip-requirements.txt"
+
+- name: Installing python libraries using requirements file
+  pip:
+    name: pyopenssl
+    extra_args: -U
+  become: true
+
