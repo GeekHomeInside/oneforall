@@ -14,6 +14,4 @@
 
 - name: Installing python libraries using requirements file
   pip:
-    name: docker-py
-  become: true
-#    requirements: "{{ allspark_root_directory }}/config/pip-requirements.txt"
+    requirements: "{{ allspark_root_directory }}/config/pip-requirements.txt"
