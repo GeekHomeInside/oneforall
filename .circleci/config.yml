@@ -45,6 +45,7 @@ jobs:
       - run: pip install --upgrade pip
       - run: pip install --upgrade virtualenv
       - run: pip install --upgrade setuptools
+      - run: pip install --upgrade cryptography
       - run: pip --version || true
       - run: sudo apt-get install -y ansible
       - run: ansible --version || true
