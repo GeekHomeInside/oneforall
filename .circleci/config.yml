@@ -48,6 +48,7 @@ jobs:
 #      - run: sudo apt-get install -y ansible
       - run: sudo find / -name "*ansible*" || true
       - run: ansible --version || true
+      - run: ls /opt/circleci/.pyenv/versions/2.7.12/bin/
       - run: sudo cp .circleci/testall.yml ./inventory/group_vars/all.yml
       - run: sudo ansible-playbook -i inventory playbooks/install.yml -vvv
       - run: pip --version
