@@ -47,7 +47,7 @@ jobs:
       - run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
       - run: sudo apt-get update -y
       - run: sudo apt-get install -y docker-ce
-      - run: sudo apt-add-repository ppa:ansible/ansible -y
+      - run: sudo add-apt-repository ppa:ansible/ansible-2.5 -y
       - run: sudo apt-get update -y
       - run: sudo apt-get install ansible -y
       - run: sudo apt-get update -y
