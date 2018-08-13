@@ -42,6 +42,8 @@ jobs:
       - run: sudo apt-add-repository ppa:ansible/ansible -y
       - run: sudo apt-get update -y
       - run: sudo apt-get install ansible -y
+      - run: sudo apt-get update -y
+      - run: sudo apt-get upgrade -y
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
       - run: sudo cp .circleci/testall.yml ./inventory/group_vars/all.yml
       - run: sudo ansible-playbook -i inventory playbooks/install.yml -vvv
