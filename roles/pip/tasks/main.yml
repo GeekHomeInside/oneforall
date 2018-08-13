@@ -15,9 +15,4 @@
 - name: Installing python libraries using requirements file
   pip:
     requirements: "{{ allspark_root_directory }}/config/pip-requirements.txt"
-
-- name: Test pyopenssl install option
-  pip:
-    name: pyopenssl
-    virtualenv_command: virtualenv-2.7
-    executable: pip-2.7
+  extra_args: --user
