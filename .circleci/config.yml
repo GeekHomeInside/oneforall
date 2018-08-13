@@ -30,7 +30,7 @@ jobs:
             - "6f:9b:63:ef:04:14:96:51:f1:c2:4f:d4:f5:7a:77:dd"
       - run: pip install --user -r ./.circleci/requirements.txt
       - run: PATH=$PATH:/root/.local/bin ansible-lint ./playbooks/*.yml -c .circleci/.ansible-lint
-      - run: PATH=$PATH:/root/.local/bin ansible-lint ./roles/**/**/*.yml -c .circleci/.ansible-lint
+      - run: PATH=$PATH:/root/.local/bin ansible-lint ./roles/**/tasks/*.yml -c .circleci/.ansible-lint
   test-playbook-install:
     machine: true
     working_directory: ~/repo
@@ -44,7 +44,7 @@ jobs:
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
       - run: pip install --upgrade pip
       - run: sudo apt-get install -y ansible
-      - run: sudo ansible-config -c .circleci/ansible.cfg
+      - run: sudo ansible-config -c ~/repo/.circleci/ansible.cfg
       - run: sudo cp /home/circleci/repo/.circleci/testall.yml /home/circleci/repo/group_vars/all.yml
       - run: sudo ansible-playbook -i hosts playbooks/install.yml -vvv
       - run: pip --version
