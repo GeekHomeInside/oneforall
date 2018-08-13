@@ -51,8 +51,9 @@ jobs:
       - run: sudo apt-get update -y
       - run: sudo apt-get install ansible -y
       - run: sudo apt-get update -y
-      - run: sudo apt-get upgrade -y
       - run: pip install --upgrade pip
+      - run: pip install docker-py ||true
+      - run: pip install pyopenssl || true
       - run: pip freeze
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
       - run: sudo cp .circleci/testall.yml ./inventory/group_vars/all.yml
