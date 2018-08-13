@@ -52,7 +52,7 @@ jobs:
       - run: sudo service docker status || true
       - run: ls /opt/circleci/.pyenv/versions/2.7.12/bin/
       - run: sudo cp .circleci/testall.yml ./inventory/group_vars/all.yml
-      - run: sudo /opt/circleci/.pyenv/versions/2.7.12/bin/ansible-playbook -i inventory playbooks/install.yml -vvv
+      - run: sudo ansible-playbook -i inventory playbooks/install.yml -vvv
       - run: pip --version
       - run: pip freeze
       - run: sudo docker ps -a
