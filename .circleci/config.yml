@@ -44,11 +44,11 @@ jobs:
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
       - run: pip install --upgrade pip
       - run: pip --version
-      - run: pip --user --version
+      - run: pip --version --user
       - run: pip install ansible==2.5.5
 #      - run: sudo apt-get install -y ansible
       - run: sudo find / -name "*ansible*" || true
-      - run: ansible --version
+      - run: ansible --version || true
       - run: sudo cp .circleci/testall.yml ./inventory/group_vars/all.yml
       - run: sudo ansible-playbook -i inventory playbooks/install.yml -vvv
       - run: pip --version
