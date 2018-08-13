@@ -39,18 +39,14 @@ jobs:
           fingerprints:
             - "6f:9b:63:ef:04:14:96:51:f1:c2:4f:d4:f5:7a:77:dd"
       - run: sudo apt-get update -y
-      - run: sudo apt-add-repository ppa:ansible/ansible
+      - run: sudo apt-add-repository ppa:ansible/ansible -y
       - run: sudo apt-get update -y
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
       - run: pip install --upgrade pip
-      - run: pip install --user ansible==2.5.5
-#      - run: sudo apt-get install -y ansible
-      - run: sudo find / -name "*ansible*" || true
-      - run: sudo find / -name "*pip*" || true
-      - run: pip freeze | grep -i ansible || true
-      - run: sudo  ansible-config -c .circleci/ansible.cfg
+      - run: sudo apt-get install -y ansible
+      - run: sudo ansible-config -c .circleci/ansible.cfg
       - run: sudo cp /home/circleci/repo/.circleci/testall.yml /home/circleci/repo/group_vars/all.yml
-      - run: sudo PATH=$PATH:/root/.local/bin ansible-playbook -i hosts playbooks/install.yml -vvv
+      - run: sudo ansible-playbook -i hosts playbooks/install.yml -vvv
       - run: pip --version
       - run: pip freeze
       - run: sudo docker ps -a
