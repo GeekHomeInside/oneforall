@@ -47,14 +47,13 @@ jobs:
       - run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
       - run: sudo apt-get update -y
       - run: sudo apt-get install -y docker-ce
-      - run: sudo docker run hello-world
       - run: sudo apt-add-repository ppa:ansible/ansible -y
       - run: sudo apt-get update -y
       - run: sudo apt-get install ansible -y
       - run: sudo apt-get update -y
-      - run: sudo apt-get upgrade -y
+#      - run: sudo apt-get upgrade -y
       - run: pip install --upgrade pip
-      - run: pip install --upgrade setuptools
+      - run: pip install --upgrade docker
       - run: pip install --upgrade docker-py
       - run: pip install --upgrade pyopenssl
       - run: pip freeze
@@ -63,6 +62,8 @@ jobs:
       - run: sudo ansible-playbook -i inventory playbooks/install.yml -vvv || true
       - run: pip --version
       - run: pip freeze
+      - run: uname -a
+      - run: sudo cat /etc/debian_version || true
       - run: sudo docker ps -a
       - run: sudo docker volume ls
 
