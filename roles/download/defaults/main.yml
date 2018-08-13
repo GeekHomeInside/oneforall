@@ -127,7 +127,7 @@ downloads:
     image: "{{ intranet_image }}"
     tag: "{{ intranet_tag }}"
   intradb:
-    enabled: "{{ allspark_intradb.enabled }}"
+    enabled: "{{ allspark_intranet.enabled }}"
     image: "{{ intradb_image }}"
     tag: "{{ intradb_tag }}"
   keepass:

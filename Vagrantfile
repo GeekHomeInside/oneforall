@@ -8,6 +8,8 @@ Vagrant.configure("2") do |config|
     vb.memory = "2048"
   end
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "install.yml"
+    ansible.inventory_path = "inventory"
+    ansible.verbose = "vvv"
+    ansible.playbook = "playbooks/install.yml"
   end
 end

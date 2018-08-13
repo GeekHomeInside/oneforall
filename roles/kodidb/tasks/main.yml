@@ -6,7 +6,7 @@
 - name: Setup database for Kodi as database service
   docker_container:
     name: kodidb
-    image: "{{ downloads.database_kodi.image }}:{{ downloads.database_kodi.tag }}"
+    image: "{{ downloads.kodidb.image }}:{{ downloads.kodidb.tag }}"
     state: "{{ allspark_kodidb.enabled and 'started' or 'absent'}}"
     volumes:
       - "allspark_kodi_db:/var/lib/mysql"
