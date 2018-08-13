@@ -43,7 +43,9 @@ jobs:
       - run: sudo apt-get update -y
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
       - run: pip install --upgrade pip
-      - run: pip install --user ansible==2.5.5
+      - run: pip --version
+      - run: pip --user --version
+      - run: pip install ansible==2.5.5
 #      - run: sudo apt-get install -y ansible
       - run: sudo find / -name "*ansible*" || true
       - run: ansible --version
