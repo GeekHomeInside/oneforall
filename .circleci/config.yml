@@ -54,7 +54,7 @@ jobs:
       - run: sudo apt-get update -y
       - run: sudo apt-get upgrade -y
       - run: pip install --upgrade pip
-      - run: pip install --upgrade docker
+      - run: pip install --upgrade setuptools
       - run: pip install --upgrade docker-py
       - run: pip install --upgrade pyopenssl
       - run: pip freeze
