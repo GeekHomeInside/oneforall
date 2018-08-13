@@ -17,7 +17,7 @@ allspark_monitoring:
 
 allspark_traefik:
   selfsigned:
-    enabled: true
+    enabled: false
     # For example country: FR
     country: XX
     state: state
