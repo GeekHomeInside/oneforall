@@ -45,6 +45,8 @@ jobs:
       - run: pip install --upgrade pip
       - run: pip install --user ansible==2.5.5
 #      - run: sudo apt-get install -y ansible
+      - run: sudo find / -name "ansible" || true
+      - run: pip freeze | grep -i ansible || true
       - run: sudo cp /home/circleci/repo/.circleci/ansible.cfg /etc/ansible/ansible.cfg
       - run: sudo cp /home/circleci/repo/.circleci/testall.yml /home/circleci/repo/group_vars/all.yml
       - run: sudo ansible-playbook -i hosts playbooks/install.yml -vvv
