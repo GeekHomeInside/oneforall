@@ -44,6 +44,7 @@ jobs:
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
       - run: pip install --upgrade pip
       - run: sudo apt-get install -y ansible
+      - run: pip install --user virtualenv -U
       - run: sudo cp .circleci/testall.yml ./inventory/group_vars/all.yml
       - run: sudo ansible-playbook -i inventory playbooks/install.yml -vvv
       - run: pip --version
