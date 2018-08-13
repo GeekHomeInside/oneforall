@@ -43,14 +43,14 @@ jobs:
       - run: sudo apt-get update -y
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
       - run: pip install --upgrade pip
-      - run: pip --version
-#      - run: pip install ansible==2.5.5
+      - run: pip install --upgrade virtualenv
+      - run: pip install --upgrade setuptools
+      - run: pip --version || true
       - run: sudo apt-get install -y ansible
-      - run: sudo find / -name "*ansible*" || true
       - run: ansible --version || true
       - run: docker --version || true
+      - run: pip freeze || true
       - run: sudo service docker status || true
-      - run: ls /opt/circleci/.pyenv/versions/2.7.12/bin/
       - run: sudo cp .circleci/testall.yml ./inventory/group_vars/all.yml
       - run: sudo ansible-playbook -i inventory playbooks/install.yml -vvv
       - run: pip --version
