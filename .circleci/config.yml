@@ -53,9 +53,14 @@ jobs:
       - run: sudo apt-get install ansible -y
       - run: sudo apt-get update -y
       - run: sudo apt-get upgrade -y
+      - run: pip install --upgrade virtualenv
+      - run: pip install --upgrade pyenv
+      - run: pip install --upgrade docker-py
+      - run: pip install --upgrade pyopenssl
+      - run: pip freeze
       - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
       - run: sudo cp .circleci/testall.yml ./inventory/group_vars/all.yml
-      - run: sudo ansible-playbook -i inventory playbooks/install.yml -vvv
+      - run: sudo ansible-playbook -i inventory playbooks/install.yml -vvv || true
       - run: pip --version
       - run: pip freeze
       - run: sudo docker ps -a
