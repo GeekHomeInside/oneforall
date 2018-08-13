@@ -21,6 +21,6 @@
 - name: Installing python libraries using requirements file
   pip:
     name: pyopenssl
-    extra_args: -U
+    version: 0.15
   become: true
 
