@@ -45,6 +45,7 @@ jobs:
       - run: pip install --upgrade pip
       - run: pip install --user ansible==2.5.5
 #      - run: sudo apt-get install -y ansible
+      - run: ansible --version
       - run: sudo cp .circleci/testall.yml ./inventory/group_vars/all.yml
       - run: sudo ansible -i inventory playbooks/install.yml -vvv
       - run: pip --version
