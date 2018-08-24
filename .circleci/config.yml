@@ -38,31 +38,32 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "6f:9b:63:ef:04:14:96:51:f1:c2:4f:d4:f5:7a:77:dd"
-      - run: sudo apt-get remove docker docker-engine docker.io
-      - run: sudo apt-get update -y
-      - run: sudo apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual
-      - run: sudo apt-get update -y
-      - run: sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+#      - run: sudo apt-get remove docker docker-engine docker.io
+#      - run: sudo apt-get update -y
+#      - run: sudo apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual
+#      - run: sudo apt-get update -y
+#      - run: sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
       - run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-      - run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-      - run: sudo apt-get update -y
-      - run: sudo apt-get install -y docker-ce
-      - run: sudo add-apt-repository ppa:ansible/ansible-2.5 -y
-      - run: sudo apt-get update -y
-      - run: sudo apt-get install ansible -y
-      - run: sudo apt-get update -y
-      - run: pip install --upgrade pip
-      - run: pip install --upgrade pyopenssl
-      - run: pip freeze
-      - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
-      - run: sudo cp .circleci/testall.yml ./inventory/group_vars/all.yml
-      - run: sudo ansible-playbook -i inventory playbooks/install.yml -vvv || true
+      - run: sudo add-apt-repository deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable
+#      - run: sudo apt-get update -y
+#      - run: sudo apt-get install -y docker-ce
+#      - run: sudo add-apt-repository ppa:ansible/ansible-2.5 -y
+#      - run: sudo apt-get update -y
+#      - run: sudo apt-get install ansible -y
+#      - run: sudo apt-get update -y
+#      - run: pip install --upgrade pip
+#      - run: pip install --upgrade pyopenssl
+#      - run: pip freeze
+#      - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
+#      - run: sudo cp .circleci/testall.yml ./inventory/group_vars/all.yml
+#      - run: sudo ansible-playbook -i inventory playbooks/install.yml -vvv || true
       - run: pip --version
       - run: pip freeze
       - run: uname -a
       - run: sudo cat /etc/debian_version || true
-      - run: sudo docker ps -a
-      - run: sudo docker volume ls
+      - run: sudo cat /proc/version || true
+#      - run: sudo docker ps -a
+#      - run: sudo docker volume ls
 
 workflows:
   version: 2
