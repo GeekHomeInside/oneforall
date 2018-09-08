@@ -2,7 +2,7 @@ version: 2
 jobs:
   build-docs:
     docker:
-      - image: circleci/python:3.6.3
+      - image: circleci/python:3.7.0
     environment:
       - COMMIT_AUTHOR_EMAIL: "guiadco4geekhomeinside@gmail.com"
     steps:
