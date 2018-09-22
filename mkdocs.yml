@@ -40,5 +40,5 @@ markdown_extensions:
   - pymdownx.mark
   - pymdownx.smartsymbols
   - pymdownx.tasklist:
-    custom_checkbox: true
+      custom_checkbox: true
   - pymdownx.tilde
