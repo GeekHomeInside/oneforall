@@ -9,7 +9,7 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "e1:63:6e:8a:23:57:c7:f6:42:87:c8:12:59:f6:ca:c5"
+            - "be:c0:06:e5:f0:c8:14:8b:1d:dd:39:c0:15:86:17:8c"
       - run:
           name: Install Virtualenv dependencies for Pip
           command: pip install --user virtualenv
@@ -40,7 +40,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "e1:63:6e:8a:23:57:c7:f6:42:87:c8:12:59:f6:ca:c5"
+            - "be:c0:06:e5:f0:c8:14:8b:1d:dd:39:c0:15:86:17:8c"
       - run:
           name: Lint playbooks and roles
           command: ./.circleci/lint.sh
@@ -51,7 +51,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "e1:63:6e:8a:23:57:c7:f6:42:87:c8:12:59:f6:ca:c5"
+            - "be:c0:06:e5:f0:c8:14:8b:1d:dd:39:c0:15:86:17:8c"
       - run:
           name: Update Cache
           command: sudo apt-get -y update
