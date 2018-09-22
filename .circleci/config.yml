@@ -38,7 +38,6 @@ jobs:
       - image: python:2.7
     working_directory: ~/repo
     steps:
-      - checkout
       - add_ssh_keys:
           fingerprints:
             - "e1:63:6e:8a:23:57:c7:f6:42:87:c8:12:59:f6:ca:c5"
