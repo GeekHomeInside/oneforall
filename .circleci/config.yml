@@ -43,8 +43,11 @@ jobs:
           fingerprints:
             - "be:c0:06:e5:f0:c8:14:8b:1d:dd:39:c0:15:86:17:8c"
       - run:
+          name: Prepare shell commands
+          command: chmod +x ./.circleci/lint.sh
+      - run:
           name: Lint playbooks and roles
-          command: sh ./.circleci/lint.sh
+          command: ./.circleci/lint.sh
 
   test-install:
     machine: true
