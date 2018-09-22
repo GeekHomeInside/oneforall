@@ -1,10 +1,14 @@
-- name: Allspark installer
+- name: GeekHomeInside installer
   hosts: all
   roles:
     - system
     - pip
     - { role: download, tags: [ "download", "prepare" ] }
-    - infra
+    - local_datas
+    - network
+    - haproxy
+    - ldap
+    - utils
     - monitoring
     - gitlab
     - jenkins

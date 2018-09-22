@@ -2,7 +2,8 @@
 gitlab_image: gitlab/gitlab-ce
 rocketchat_image: rocket.chat
 rocketchat_mongodb_image: mongo
-traefik_image: traefik
+haproxy_image: haproxy
+haproxy_exporter_image: quay.io/prometheus/haproxy-exporter
 grafana_image: grafana/grafana
 prometheus_image: prom/prometheus
 cadvisor_image: google/cadvisor
@@ -17,17 +18,15 @@ centos_image: centos
 volumerize_image: blacklabelops/volumerize
 mattermost_image: mattermost/mattermost-prod-app
 mattermost_postgresql_image: postgres
-intranet_image: drupal
-intradb_image: postgres
-keepass_image: boogy/apache-php
-kodidb_image: mysql
-web_image: boogy/apache-php
 
 # Tags
 gitlab_tag: latest
 rocketchat_tag: latest
 rocketchat_mongodb_tag: latest
-traefik_tag: latest
+# Alpine tag is required, because it bundle rsyslogd
+# which allow us to read logs from HAProxy
+haproxy_tag: alpine
+haproxy_exporter_tag: v0.9.0
 grafana_tag: latest
 prometheus_tag: v2.1.0
 cadvisor_tag: latest
@@ -42,11 +41,6 @@ centos_tag: 7
 volumerize_tag: latest
 mattermost_tag: latest
 mattermost_postgresql_tag: latest
-intranet_tag: latest
-intradb_tag: latest
-keepass_tag: latest
-kodidb_tag: latest
-web_tag: latest
 
 # Downloads
 downloads:
@@ -106,10 +100,14 @@ downloads:
     enabled: "{{ allspark_sonarqube.enabled }}"
     image: "{{ sonarqube_image }}"
     tag: "{{ sonarqube_tag }}"
-  traefik:
+  haproxy:
     enabled: true
-    image: "{{ traefik_image }}"
-    tag: "{{ traefik_tag }}"
+    image: "{{ haproxy_image }}"
+    tag: "{{ haproxy_tag }}"
+  haproxy_exporter:
+    enabled: "{{ allspark_monitoring.enabled }}"
+    image: "{{ haproxy_exporter_image }}"
+    tag: "{{ haproxy_exporter_tag }}"
   volumerize:
     enabled: true
     image: "{{ volumerize_image }}"
@@ -122,26 +120,6 @@ downloads:
     enabled: "{{ allspark_mattermost.enabled }}"
     image: "{{ mattermost_postgresql_image }}"
     tag: "{{ mattermost_postgresql_tag }}"
-  intranet:
-    enabled: "{{ allspark_intranet.enabled }}"
-    image: "{{ intranet_image }}"
-    tag: "{{ intranet_tag }}"
-  intradb:
-    enabled: "{{ allspark_intranet.enabled }}"
-    image: "{{ intradb_image }}"
-    tag: "{{ intradb_tag }}"
-  keepass:
-    enabled: "{{ allspark_keepass.enabled }}"
-    image: "{{ keepass_image }}"
-    tag: "{{ keepass_tag }}"
-  kodidb:
-    enabled: "{{ allspark_kodidb.enabled }}"
-    image: "{{ kodidb_image }}"
-    tag: "{{ kodidb_tag }}"
-  web:
-    enabled: "{{ allspark_web.enabled }}"
-    image: "{{ web_image }}"
-    tag: "{{ web_tag }}"
 
 # Misc
 

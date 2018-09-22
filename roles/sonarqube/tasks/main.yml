@@ -12,13 +12,11 @@
     name: sonarqube
     image: "{{ downloads.sonarqube.image }}:{{ downloads.sonarqube.tag }}"
     state: "{{ allspark_sonarqube.enabled and 'started' or 'absent'}}"
+    purge_networks: true
     networks:
       - name: allspark
     volumes:
       - allspark_sonarqube_data:/opt/sonarqube/data
     labels:
-      "traefik.backend": "sonarqube"
-      "traefik.frontend.rule": "Host:sonarqube.{{ allspark_root_domain }}"
-      "traefik.enable": "true"
       "heritage": "allspark"
     restart_policy: always

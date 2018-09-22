@@ -5,17 +5,35 @@
     state: "{{ allspark_monitoring.enabled and 'started' or 'absent' }}"
     volumes: >-
       [
-        {%- if not (ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat') -%}
-        {# Disabled because of this issue : https://github.com/google/cadvisor/issues/1890 #}
-        "/sys:/sys:ro",
+        {%- if (ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat') -%}
+        {# CentOS/RHEL specific mount point : https://github.com/google/cadvisor/blob/master/docs/running.md#centos-fedora-and-rhel #}
+        "/cgroup:/cgroup:ro",
         {%- endif -%}
+        "/sys:/sys:ro",
         "/var/lib/docker/:/var/lib/docker:ro",
         "/var/run:/var/run:rw",
         "/:/rootfs:ro"
       ]
+    purge_networks: true
+    privileged: "{%- if not (ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat') -%}false{%- else -%}true{%- endif -%}"
     networks:
       - name: allspark
     restart_policy: always
+    labels:
+      "heritage": "allspark"
+
+- name: HAProxy exporter
+  docker_container:
+    name: haproxy_exporter
+    image: "{{ downloads.haproxy_exporter.image }}:{{ downloads.haproxy_exporter.tag }}"
+    state: "{{ allspark_monitoring.enabled and 'started' or 'absent' }}"
+    purge_networks: true
+    command: --haproxy.scrape-uri="http://haproxy:9000/metrics?stats;csv"
+    networks:
+      - name: allspark
+    restart_policy: always
+    labels:
+      "heritage": "allspark"
 
 - name: Setup node exporter
   docker_container:
@@ -31,9 +49,12 @@
       - '--path.sysfs=/host/sys'
       - --collector.filesystem.ignored-mount-points
       - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs|rootfs/var/lib/docker/devicemapper|rootfs/var/lib/docker/plugins|rootfs/run/user)($$|/)"
+    purge_networks: true
     networks:
       - name: allspark
     restart_policy: always
+    labels:
+      "heritage": "allspark"
 
 - name: Create Prometheus config folder
   file:
@@ -65,13 +86,11 @@
       - '--storage.tsdb.path=/prometheus'
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
+    purge_networks: true
     networks:
       - name: allspark
     restart_policy: always
     labels:
-      "traefik.backend": "prometheus"
-      "traefik.frontend.rule": "Host:metrics.{{ allspark_root_domain }}"
-      "traefik.enable": "true"
       "heritage": "allspark"
 
 # TODO: Skip this when grafana is disabled
@@ -99,10 +118,8 @@
     env_file: "{{ allspark_root_directory }}/config/grafana/config.monitoring"
     entrypoint: /etc/grafana/allspark_init.sh
     restart_policy: always
+    purge_networks: true
     networks:
       - name: allspark
     labels:
-      "traefik.backend": "grafana"
-      "traefik.frontend.rule": "Host:monitoring.{{ allspark_root_domain }}"
-      "traefik.enable": "true"
       "heritage": "allspark"

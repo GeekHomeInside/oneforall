@@ -1,6 +1,6 @@
 site_name: GeekHomeInside
 site_description: The Home toolbox.
-site_author: GuiAdCo
+site_author: GeekHomeInside team
 theme:
   name: 'material'
   palette:

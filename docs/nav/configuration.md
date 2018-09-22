@@ -7,24 +7,31 @@ your needs, like:
     (each component will be exposed as a subdomain).
   - The `allspark_docker_version` to choose the docker version you want.
   - Enable or disable component using their `enabled` boolean toggle.
-  - Enable or disable certificates option using their `enable` boolean Toggle.
-    - You can set all you want for the self-signed use.
 
-```
+```yaml
 allspark_monitoring:
   enabled: true
-
-allspark_traefik:
-  selfsigned:
-    enabled: false
-    # For example country: FR
-    country: XX
-    state: state
-    location: city
-    organisation: myteam
-    organizational_unit: myorganizational_unit
-    common_name: "*.{{ allspark_root_domain }}"
 ```
+
+### HTTPS
+
+In order to provide HTTPS, you can either :
+
+- Enable self signed certificates by activating the `allspark_haproxy.ssl.enabled` and `allspark_haproxy.ssl.selfsigned.enabled` flags.
+- Import a certificate from your control machine : enable `allspark_haproxy.ssl.enabled`,
+set the `allspark_haproxy.ssl.certificates_directory` variable to a folder on the control machine
+containing PEM certificates named like their endpoint (e.g: `infra.allspark.localhost.pem`)
+
+You can also do a mix of both, imported certificates will be picked over generated ones,
+allowing you to import certificates for some of the endpoints and let Allspark generate
+the missing ones.
+
+!!! note
+    For wildcard and UCC certificates signing multiple domains, simply copy the file (or create a symbolic link pointing to it) to mirror the new endpoint
+    e.g:
+    ```sh
+    cp infra.allspark.localhost.pem chat.allspark.localhost
+    ```
 
 ## Downloads
 
@@ -42,4 +49,4 @@ allspark_traefik:
        gitlab_tag: latest
     ```
 
-    You can access the complete list of available components in the [roles/downloads/defaults/main.yml](https://github.com/TheFkinCompany/allspark/blob/master/roles/download/defaults/main.yml) file.
+    You can access the complete list of available components in the [roles/downloads/defaults/main.yml](https://github.com/actiniumio/allspark/blob/master/roles/download/defaults/main.yml) file.

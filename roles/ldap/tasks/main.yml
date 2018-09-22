@@ -4,6 +4,8 @@
   shell: "cat {{ allspark_root_directory}}/data/secrets/admin_password.txt"
   register: admin_password
   changed_when: False
+  tags:
+  - skip_ansible_lint
 
 - name: Creating users volume
   docker_volume:
@@ -19,6 +21,7 @@
     hostname: ldap_backend
     image: "{{ downloads.openldap.image }}:{{ downloads.openldap.tag }}"
     state: "{{ allspark_ldap.enabled and 'started' or 'absent'}}"
+    purge_networks: true
     networks:
       - name: allspark
     env:
@@ -35,13 +38,12 @@
     name: ldap_management
     image: "{{ downloads.phpldapadmin.image }}:{{ downloads.phpldapadmin.tag }}"
     state: "{{ allspark_ldap.enabled and 'started' or 'absent'}}"
+    purge_networks: true
     networks:
       - name: allspark
     env:
       PHPLDAPADMIN_LDAP_HOSTS: ldap_backend
       PHPLDAPADMIN_HTTPS: false
     labels:
-      "traefik.backend": "ldap_management"
-      "traefik.frontend.rule": "Host:users.{{ allspark_root_domain }}"
-      "traefik.enable": "true"
+      "heritage": "allspark"
     restart_policy: always

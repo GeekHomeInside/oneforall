@@ -21,6 +21,7 @@
       TARGET: "{{ allspark_release_tmp_directory}}/dependencies/jenkins_plugins"
       REQUIREMENTS_FILE: "{{ playbook_dir }}/files/jenkins_plugins.txt"
     when: allspark_jenkins.enabled
+    #Need to analyse on issue #74
     tags:
       - skip_ansible_lint
 

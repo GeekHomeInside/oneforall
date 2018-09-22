@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: circleci/python:3.6.3
     environment:
-      - COMMIT_AUTHOR_EMAIL: "guiadco4geekhomeinside@gmail.com"
+      - COMMIT_AUTHOR_EMAIL: "guiadco@geekhomeinside.com"
     steps:
       - checkout
       - add_ssh_keys:
@@ -19,7 +19,21 @@ jobs:
       - deploy:
           name: Deploy
           command: PATH=$PATH:/home/circleci/.local/bin/ .circleci/deploy-ghpages.sh docs
-  test-ansible-lint:
+
+  create-release:
+    machine: true
+    environment:
+      - COMMIT_AUTHOR_EMAIL: "guiadco@geekhomeinside.com"
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: curl -L https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -o jq && chmod +x jq && sudo mv jq /usr/bin
+      - deploy:
+          name: Generate release notes
+          command: .circleci/release_notes.sh
+
+  ansible-lint:
     docker:
       - image: python:2.7
     working_directory: ~/repo
@@ -28,48 +42,55 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "6f:9b:63:ef:04:14:96:51:f1:c2:4f:d4:f5:7a:77:dd"
-      - run: pip install --user -r ./.circleci/requirements.txt
-      - run: PATH=$PATH:/root/.local/bin ansible-lint ./playbooks/*.yml -c .circleci/.ansible-lint
-      - run: PATH=$PATH:/root/.local/bin ansible-lint ./roles/**/tasks/*.yml -c .circleci/.ansible-lint
-  test-playbook-install:
+      - run:
+          name: Lint playbooks and roles
+          command: ./.circleci/lint.sh
+
+  test-install:
     machine: true
     working_directory: ~/repo
     steps:
       - add_ssh_keys:
           fingerprints:
             - "6f:9b:63:ef:04:14:96:51:f1:c2:4f:d4:f5:7a:77:dd"
-#      - run: sudo apt-get remove docker docker-engine docker.io
-#      - run: sudo apt-get update -y
-#      - run: sudo apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual
-#      - run: sudo apt-get update -y
-#      - run: sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-      - run: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-      - run: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-      - run: echo $(lsb_release -cs) || true
-#      - run: sudo apt-get update -y
-#      - run: sudo apt-get install -y docker-ce
-#      - run: sudo add-apt-repository ppa:ansible/ansible-2.5 -y
-#      - run: sudo apt-get update -y
-#      - run: sudo apt-get install ansible -y
-#      - run: sudo apt-get update -y
-#      - run: pip install --upgrade pip
-#      - run: pip install --upgrade pyopenssl
-#      - run: pip freeze
-#      - run: git clone https://github.com/guiadco/geekhomeinside.git ~/repo
-#      - run: sudo cp .circleci/testall.yml ./inventory/group_vars/all.yml
-#      - run: sudo ansible-playbook -i inventory playbooks/install.yml -vvv || true
-      - run: pip --version
-      - run: pip freeze
-      - run: uname -a
-      - run: sudo cat /etc/debian_version || true
-      - run: sudo cat /proc/version || true
-#      - run: sudo docker ps -a
-#      - run: sudo docker volume ls
+      - run:
+          name: Update Cache
+          command: sudo apt-get -y update
+      - run:
+          name: Add Ansible PPA
+          command: sudo apt-add-repository ppa:ansible/ansible
+      - run:
+          name: Clone the repository
+          command: git clone https://github.com/guiadco/geekhomeinside.git .
+      - run:
+          name: Update Cache
+          command: sudo apt-get -y update
+      - run:
+          name: Move to your current BRANCH
+          command: git checkout $CIRCLE_BRANCH
+      - run:
+          name: Install Ansible latest version
+          command: sudo apt-get install -y ansible
+      - run:
+          name: Run Allspark Playbook with verbose mode
+          command: ansible-playbook -i hosts install.yml -vvv
+      - run:
+          name: See your container's install
+          command: docker ps -a
+      - run:
+          name: See your volume's install
+          command: docker volume ls
 
 workflows:
   version: 2
   test-to-master:
     jobs:
-      - test-ansible-lint
+      - ansible-lint
+      - test-install
       - build-docs
-      - test-playbook-install
+      - create-release:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/

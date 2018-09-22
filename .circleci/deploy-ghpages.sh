@@ -4,7 +4,6 @@
 # https://gist.github.com/domenic/ec8b0fc8ab45f39403dd
 
 set -xe # Exit with nonzero exit code if anything fails
-env
 
 SOURCE_BRANCH="master"
 TARGET_BRANCH="gh-pages"
@@ -16,12 +15,12 @@ function doCompile {
 }
 
 # Pull requests and commits to other branches shouldn't try to deploy, just build to verify
-#if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$CIRCLE_BRANCH" != "$SOURCE_BRANCH" ]; then
-#    echo "Skipping deploy; just doing a build."
-#    mkdir out
-#    doCompile
-#    exit 0
-#fi
+if [ ! -z "$CIRCLE_PULL_REQUEST" -o "$CIRCLE_BRANCH" != "$SOURCE_BRANCH" ]; then
+    echo "Skipping deploy; just doing a build."
+    mkdir out
+    doCompile
+    exit 0
+fi
 
 # Save some useful information
 REPO=`git config remote.origin.url`
@@ -44,21 +43,17 @@ doCompile
 
 # Now let's go have some fun with the cloned repo
 cd out
-git config user.name "$GH_NAME"
-git config user.email "$GH_EMAIL"
-
-git status || true
-ls -ltra || true
+git config user.name "Circle CI"
+git config user.email "$COMMIT_AUTHOR_EMAIL"
 
 # If there are no changes to the compiled out (e.g. this is a README update) then just bail.
-#if git diff --quiet; then
-#    echo "No changes to the output on this push; exiting."
-#    exit 0
-#fi
+if git diff --quiet; then
+    echo "No changes to the output on this push; exiting."
+    exit 0
+fi
 
 # Commit the "changes", i.e. the new version.
 # The delta will show diffs between new and old versions.
-#git diff --name-only --diff-filter=M | xargs git add
 git add -A .
 git commit -m "Deploy to GitHub Pages: ${SHA}"
 git push $SSH_REPO $TARGET_BRANCH
