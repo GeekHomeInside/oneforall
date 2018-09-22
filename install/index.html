@@ -14,7 +14,7 @@
       
       
       
-        <meta name="author" content="GuiAdCo">
+        <meta name="author" content="GeekHomeInside team">
       
       
         <meta name="lang:clipboard.copy" content="Copy to clipboard">
@@ -574,9 +574,13 @@
 <ul>
 <li>Change the hosts file to point to the allspark machine.</li>
 </ul>
-<div class="codehilite"><pre><span></span>ansible-playbook -i hosts playbooks/install.yml
+<div class="codehilite"><pre><span></span>ansible-playbook -i hosts install.yml
 </pre></div>
 
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Before using the playbook, you need to be sure to have your deployment user in the wheel groups</p>
+</div>
 <p>At this point, you will be able to see component show up along with their access URL
 at <code class="codehilite">ingress.YOUR_ROOT_DOMAIN</code>.</p>
 <h3 id="offline-install">Offline install</h3>
@@ -588,7 +592,7 @@ at <code class="codehilite">ingress.YOUR_ROOT_DOMAIN</code>.</p>
 <div class="superfences-tabs">
 <input name="__tabs_1" type="radio" id="__tab_1_0" checked="checked" />
 <label for="__tab_1_0">Bash</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span>ansible-playbook -i hosts playbooks/release.yml
+<div class="superfences-content"><div class="codehilite"><pre><span></span>ansible-playbook -i hosts release.yml
 </pre></div></div>
 <input name="__tabs_1" type="radio" id="__tab_1_1" />
 <label for="__tab_1_1">hosts</label>
@@ -608,8 +612,8 @@ directory to the offline allspark machine.</p>
 <div class="superfences-tabs">
 <input name="__tabs_2" type="radio" id="__tab_2_0" checked="checked" />
 <label for="__tab_2_0">Bash</label>
-<div class="superfences-content"><div class="codehilite"><pre><span></span>ansible-playbook -i hosts playbooks/setup.yml
-ansible-playbook -i hosts playbooks/install.yml
+<div class="superfences-content"><div class="codehilite"><pre><span></span>ansible-playbook -i hosts setup.yml
+ansible-playbook -i hosts install.yml
 </pre></div></div>
 <input name="__tabs_2" type="radio" id="__tab_2_1" />
 <label for="__tab_2_1">hosts</label>

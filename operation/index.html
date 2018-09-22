@@ -14,7 +14,7 @@
       
       
       
-        <meta name="author" content="GuiAdCo">
+        <meta name="author" content="GeekHomeInside team">
       
       
         <meta name="lang:clipboard.copy" content="Copy to clipboard">
@@ -575,13 +575,13 @@
 <ul>
 <li>Launch the playbook to make your backup, like:</li>
 </ul>
-<div class="codehilite"><pre><span></span>ansible-playbook -i hosts playbooks/backup.yml
+<div class="codehilite"><pre><span></span>ansible-playbook -i hosts backup.yml
 </pre></div>
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>You can change the release destination (default: <code class="codehilite">/opt/allspark/backup</code>) like so:
-<div class="codehilite"><pre><span></span>ansible-playbook -i hosts playbooks/backup.yml --extra-vars <span class="s1">&#39;allspark_backup_directory=/tmp/allspark_backup&#39;</span>
+<div class="codehilite"><pre><span></span>ansible-playbook -i hosts backup.yml --extra-vars <span class="s1">&#39;allspark_backup_directory=/tmp/allspark_backup&#39;</span>
 </pre></div></p>
 </div>
 <h2 id="restore-guide">Restore guide</h2>
@@ -603,13 +603,13 @@
 <ul>
 <li>Launch the playbook Restore to make the restore</li>
 </ul>
-<div class="codehilite"><pre><span></span>ansible-playbook -i hosts playbooks/restore.yml
+<div class="codehilite"><pre><span></span>ansible-playbook -i hosts restore.yml
 </pre></div>
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>You can launch a dry-run mode if you want to test your backup to restore, like so:
-<div class="codehilite"><pre><span></span>ansible-playbook -i hosts playbooks/restore.yml --extra-vars <span class="s1">&#39;allspark_restore_dry_run=true&#39;</span>
+<div class="codehilite"><pre><span></span>ansible-playbook -i hosts restore.yml --extra-vars <span class="s1">&#39;allspark_restore_dry_run=true&#39;</span>
 </pre></div></p>
 </div>
                 
