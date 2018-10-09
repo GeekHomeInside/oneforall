@@ -1,6 +1,6 @@
 {
-  "extends": ["config:base"],
-  "docker": {
-    "enable" : true,
-  }
+  "extends": [
+    "config:base",
+    "docker:enableMajor"
+ ]
 }
