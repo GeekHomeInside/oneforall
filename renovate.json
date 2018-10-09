@@ -3,5 +3,6 @@
     "config:base",
     "docker:enableMajor",
     "default:pinDigestsDisabled"
- ]
+ ],
+  "semanticCommitScope": "deps"
 }
