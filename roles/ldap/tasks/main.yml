@@ -36,7 +36,7 @@
 - name: Starting LDAP web management dashboard
   docker_container:
     name: ldap_management
-    image: "{{ downloads.phpldapadmin.image }}:{{ downloads.phpldapadmin.tag }}"
+    image: osixia/openldap:1.2.0
     state: "{{ allspark_ldap.enabled and 'started' or 'absent'}}"
     purge_networks: true
     networks:

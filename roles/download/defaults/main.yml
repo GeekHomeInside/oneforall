@@ -11,7 +11,7 @@ cadvisor_image: google/cadvisor
 node_exporter_image: prom/node-exporter
 sonarqube_image: sonarqube
 portainer_image: portainer/portainer
-openldap_image: osixia/openldap
+openldap_image: osixia/openldap:1.2.0
 phpldapadmin_image: osixia/phpldapadmin
 gitlab_runner_image: gitlab/gitlab-runner
 jenkins_image: jenkins/jenkins
