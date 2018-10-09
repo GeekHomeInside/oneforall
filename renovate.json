@@ -2,6 +2,7 @@
   "extends": [
     "config:base",
     "docker:enable",
-    "docker:enableMajor"
+    "docker:enableMajor",
+    "default:pinDigestsDisabled"
  ]
 }
