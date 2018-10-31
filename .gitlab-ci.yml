@@ -6,6 +6,6 @@ variables:
 build-docs:
   script:
   - pip install --user virtualenv
-  - deploy-ghpages.sh docs
+  - .circleci/deploy-ghpages.sh docs
   only:
   - master
