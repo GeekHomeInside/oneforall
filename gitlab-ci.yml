@@ -1,9 +1,0 @@
-build-docs:
-  image: python:3.7.0
-  environment:
-  - COMMIT_AUTHOR_EMAIL: "guiadco@geekhomeinside.com"
-  script:
-  - pip install --user virtualenv
-  - deploy-ghpages.sh docs
-  only:
-  - master
