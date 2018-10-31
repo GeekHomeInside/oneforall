@@ -10,3 +10,10 @@ build-docs:
   - PATH=$PATH:/root/.local/bin .circleci/deploy-ghpages.sh docs
   only:
   - master
+
+image: python:3.7.1
+
+ansible-lint:
+  script:
+    - chmod +x ./.circleci/lint.sh
+    - ./.circleci/lint.sh
