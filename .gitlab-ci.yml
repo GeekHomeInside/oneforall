@@ -6,6 +6,7 @@ variables:
 build-docs:
   script:
   - pip install --user virtualenv
-  - .circleci/deploy-ghpages.sh docs
+  - chmod +x .circleci/deploy-ghpages.sh
+  - PATH=$PATH:/root/.local/bin .circleci/deploy-ghpages.sh docs
   only:
   - master
