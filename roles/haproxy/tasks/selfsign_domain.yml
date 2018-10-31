@@ -61,6 +61,8 @@
       -sha256
   register: cert
   when: not remote_cert_file.stat.exists and (not crt_file.stat.exists or priv is changed or csr is changed)
+  tags:
+  - skip_ansible_lint
 
 - name: "{{ item.name }} - Combined certificate status"
   stat: path="{{ allspark_root_directory}}/data/secrets/haproxy/certificates/{{ item.host }}.combined.pem"
@@ -75,6 +77,8 @@
     {{ allspark_root_directory }}/data/ssl/certificates/ca.crt
     > {{ allspark_root_directory}}/data/secrets/haproxy/certificates/generated/{{ item.host }}.combined.pem
   when: not remote_cert_file.stat.exists and (not combined_file.stat.exists or priv is changed or cert is changed)
+  tags:
+  - skip_ansible_lint
 
 - name: "{{ item.name }} - Certificate symlink"
   file:
