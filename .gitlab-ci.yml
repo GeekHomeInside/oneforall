@@ -69,11 +69,12 @@ gcp-test-allspark-centos7:
     - gcloud --quiet config set project $GCP_PROJECT_ID
     - gcloud --quiet config set compute/zone $GCP_PROJECT_ZONE
     - gcloud compute --quiet scp --recurse . bot_actinium@allspark-1:~/ --zone "$GCP_PROJECT_ZONE"
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-1 -- 'sudo yum -y install epel-release'
     - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-1 -- 'sudo yum -y install ansible'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-1 -- 'ansible-playbook -i .gitlabci/hosts install.yml'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-1 -- 'ansible-playbook -i .gitlabci/hosts.gitlabci install.yml'
     - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-1 -- 'docker ps -a'
     - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-1 -- 'docker volume ls'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-1 -- 'chmod +x .gitlabci/security-bench.sh'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-1 -- '.gitlabci/security-bench.sh'
   dependencies:
     - terraform-validate-plan-apply
 

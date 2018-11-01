@@ -1,5 +1,4 @@
 # Images
-gitlab/gitlab-ee:10.0.0
 gitlab_image: gitlab/gitlab-ce
 rocketchat_image: rocket.chat
 rocketchat_mongodb_image: mongo
