@@ -1,4 +1,5 @@
 stages:
+  - test
   - provision
   - destroy
 
@@ -8,6 +9,7 @@ variables:
   COMMIT_AUTHOR_EMAIL: "guiadco@geekhomeinside.com"
 
 build-docs:
+  stage: test
   script:
   - pip install --user virtualenv
   - chmod +x .circleci/deploy-ghpages.sh
@@ -18,6 +20,7 @@ build-docs:
 image: python:3.7.1
 
 ansible-lint:
+  stage: test
   script:
     - chmod +x ./.circleci/lint.sh
     - ./.circleci/lint.sh
