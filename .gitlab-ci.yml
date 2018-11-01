@@ -28,6 +28,7 @@ stages:
 
 before_script:
     - git clone https://github.com/actiniumio/terraform-gcp-europe.git ~/terraform
+    - cd ~/terraform
     - echo $GCLOUD_SERVICE_KEY > ./account.json
     - terraform init
 
