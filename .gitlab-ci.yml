@@ -41,6 +41,9 @@ validate:
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
   script:
     - terraform validate -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815'
+  cache:
+    paths:
+      - ~/terraform/
 
 terraform-plan:
   stage: plan
@@ -53,23 +56,34 @@ terraform-plan:
     - terraform plan -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815'
   cache:
     paths:
-      - planfile
+      - ~/terraform/
 
 terraform-apply:
   stage: apply
-  image: hashicorp/terraform:light
+  image:
+    name: hashicorp/terraform:light
+    entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
   script:
     - terraform apply -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
   cache:
     paths:
-      - planfile
+      - ~/terraform/
   dependencies:
     - terraform-plan
 
 terraform-destroy:
   stage: destroy
-  image: hashicorp/terraform:light
+  image:
+    name: hashicorp/terraform:light
+    entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
   script:
     - terraform destroy -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
+  cache:
+    paths:
+      - ~/terraform/
   dependencies:
     - terraform-apply
