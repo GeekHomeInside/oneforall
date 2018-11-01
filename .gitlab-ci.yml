@@ -3,6 +3,9 @@ stages:
   - provision
   - destroy
 
+before_script:
+  - echo "foo"
+
 variables:
   COMMIT_AUTHOR_EMAIL: "guiadco@geekhomeinside.com"
 
