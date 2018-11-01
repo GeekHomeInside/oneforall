@@ -32,7 +32,7 @@ before_script:
     - echo $GCLOUD_SERVICE_KEY > ./account.json
     - terraform init
 
-validate:
+terraform-validate:
   stage: validate
   image:
     name: hashicorp/terraform:light
