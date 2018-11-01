@@ -7,12 +7,8 @@
     - local_datas
     - network
     - haproxy
-    - ldap
     - utils
     - monitoring
-    - gitlab
-    - jenkins
-    - sonarqube
     # - web
     # - intranet
     # - keepass

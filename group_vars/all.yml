@@ -2,15 +2,11 @@
 # defaults file for allspark
 
 allspark_root_domain: geekhomeinside.com
-allspark_root_directory: /opt/allspark
-allspark_backup_directory: /opt/allspark/backup
+allspark_root_directory: /opt/geekhomeinside
+allspark_backup_directory: /opt/geekhomeinside/backup
 allspark_admin_user: admin
 
 allspark_docker_version: "18.06.0"
-
-allspark_ldap:
-  enabled: false
-  organization: GeekHomeInside
 
 allspark_monitoring:
   enabled: true
@@ -36,22 +32,6 @@ allspark_haproxy:
       organisation: myteam
       organizational_unit: myorganizational_unit
 
-allspark_rocketchat:
-  enabled: false
-
-allspark_gitlab:
-  enabled: false
-  with_runner: false
-  lfs_enabled: true
-
-allspark_jenkins:
-  enabled: false
-  # Toggle default plugin import from release.
-  import_plugins: true
-
-allspark_sonarqube:
-  enabled: false
-
 allspark_backup:
   image: blacklabelops/volumerize
 
@@ -62,18 +42,18 @@ allspark_portainer:
   enabled: true
 
 allspark_web:
-  enabled: true
+  enabled: false
 
 allspark_intranet:
-  enabled: true
+  enabled: false
 
 allspark_kodidb:
-  enabled: true
+  enabled: false
 
 allspark_keepass:
-  enabled: true
+  enabled: false
 
 ### Release configuration
 # Should not be here
-allspark_release_tmp_directory: /opt/allspark/release
-allspark_release_destination: /opt/allspark.tar.gz
+allspark_release_tmp_directory: /opt/geekhomeinside/release
+allspark_release_destination: /opt/geekhomeinside.tar.gz
