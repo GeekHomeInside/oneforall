@@ -35,7 +35,7 @@ before_script:
 validate:
   stage: validate
   image:
-    name: hashicorp/terraform:full
+    name: hashicorp/terraform:light
     entrypoint:
     - '/usr/bin/env'
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
@@ -45,7 +45,7 @@ validate:
 terraform-plan:
   stage: plan
   image:
-    name: hashicorp/terraform:full
+    name: hashicorp/terraform:light
     entrypoint:
     - '/usr/bin/env'
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
@@ -57,7 +57,7 @@ terraform-plan:
 
 terraform-apply:
   stage: apply
-  image: hashicorp/terraform:full
+  image: hashicorp/terraform:light
   script:
     - terraform apply -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
   cache:
@@ -68,7 +68,7 @@ terraform-apply:
 
 terraform-destroy:
   stage: destroy
-  image: hashicorp/terraform:full
+  image: hashicorp/terraform:light
   script:
     - terraform destroy -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
   dependencies:
