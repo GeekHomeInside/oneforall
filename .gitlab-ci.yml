@@ -8,6 +8,7 @@ variables:
 
 build-docs:
   stage: test
+  image: python:latest
   script:
   - pip install --user virtualenv
   - chmod +x .circleci/deploy-ghpages.sh
@@ -15,18 +16,16 @@ build-docs:
   only:
   - master
 
-image: python:latest
-
 ansible-lint:
   stage: test
+  image: python:latest
   script:
     - chmod +x ./.circleci/lint.sh
     - ./.circleci/lint.sh
 
-image: python:latest
-
 terraform-provision:
   stage: provision
+  image: hashicorp/terraform:latest
   script:
       - git clone https://github.com/actiniumio/terraform-gcp-europe.git ~/terraform
       - touch ${HOME}/terraform/account.json
@@ -39,13 +38,10 @@ terraform-provision:
     paths:
       - ~/terraform
 
-image: hashicorp/terraform:latest
-
 terraform-destroy:
   stage: destroy
+  image: hashicorp/terraform:latest
   script:
     - terraform destroy -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
   dependencies:
     - terraform-provision
-
-image: hashicorp/terraform:latest
