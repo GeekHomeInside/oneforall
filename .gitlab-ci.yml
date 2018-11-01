@@ -60,7 +60,7 @@ gcp-test-geekhomeinside-centos7:
     - gcloud --quiet config set project $GCP_PROJECT_ID
     - gcloud --quiet config set compute/zone $GCP_PROJECT_ZONE
     - gcloud compute --quiet scp --recurse . guiadco4geekhomeinside@geekhomeinside-centos7-1:~/ --zone "$GCP_PROJECT_ZONE"
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE guiadco4geekhomeinside@geekhomeinside-centos7-1 -- 'sudo yum -y install ansible'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- 'sudo yum -y install ansible'
     - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- 'sudo ansible-playbook -i .gitlabci/hosts.gitlabci install.yml'
     - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- 'docker ps -a'
     - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- 'docker volume ls'
