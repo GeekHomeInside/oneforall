@@ -46,6 +46,12 @@ terraform-apply:
   image: hashicorp/terraform:light
   script:
     - terraform apply -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve ${HOME}/terraform
+  cache:
+    paths:
+      - ${HOME}/terraform/
+      - planfile
+  dependencies:
+    - terraform-plan
 
 terraform-destroy:
   stage: destroy
@@ -53,4 +59,4 @@ terraform-destroy:
   script:
     - terraform destroy -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve ${HOME}/terraform
   dependencies:
-    - terraform-provision
+    - terraform-apply
