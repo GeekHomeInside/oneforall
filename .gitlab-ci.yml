@@ -27,7 +27,7 @@ stages:
 #     - ./.gitlabci/lint.sh
 
 before_script:
-    # - git clone https://github.com/actiniumio/terraform-gcp-europe.git ${HOME}/terraform
+    - git clone https://github.com/actiniumio/terraform-gcp-europe.git ~/terraform
     - echo $GCLOUD_SERVICE_KEY > ./account.json
     - terraform init
 
