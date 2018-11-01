@@ -1,7 +1,8 @@
 stages:
   # - test
   # - storekey
-  - provision
+  - plan
+  - apply
   - destroy
 
 # variables:
@@ -28,23 +29,28 @@ before_script:
     - git clone https://github.com/actiniumio/terraform-gcp-europe.git ${HOME}/terraform
     - touch ${HOME}/terraform/account.json
     - echo $GCLOUD_SERVICE_KEY > ${HOME}/terraform/account.json
-    - terraform init
+    - terraform init ${HOME}/terraform
 
-terraform-provision:
-  stage: provision
+terraform-plan:
+  stage: plan
   image: hashicorp/terraform:light
   script:
-    - terraform validate -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815'
-    - terraform plan -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815'
-    - terraform apply -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
+    - terraform plan -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -out "planfile" ${HOME}/terraform
   cache:
     paths:
       - ${HOME}/terraform/
+      - planfile
+
+terraform-apply:
+  stage: apply
+  image: hashicorp/terraform:light
+  script:
+    - terraform apply -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve ${HOME}/terraform
 
 terraform-destroy:
   stage: destroy
   image: hashicorp/terraform:light
   script:
-    - terraform destroy -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
+    - terraform destroy -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve ${HOME}/terraform
   dependencies:
     - terraform-provision
