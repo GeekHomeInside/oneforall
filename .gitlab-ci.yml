@@ -3,8 +3,6 @@ stages:
   - provision
   - destroy
 
-image: python:3.7.1
-
 variables:
   COMMIT_AUTHOR_EMAIL: "guiadco@geekhomeinside.com"
 
@@ -17,7 +15,7 @@ build-docs:
   only:
   - master
 
-image: python:3.7.1
+image: python:latest
 
 ansible-lint:
   stage: test
@@ -25,7 +23,7 @@ ansible-lint:
     - chmod +x ./.circleci/lint.sh
     - ./.circleci/lint.sh
 
-image: terraform:latest
+image: python:latest
 
 terraform-provision:
   stage: provision
@@ -41,7 +39,7 @@ terraform-provision:
     paths:
       - ~/terraform
 
-image: circleci/terraform:0.11.8
+image: hashicorp/terraform:latest
 
 terraform-destroy:
   stage: destroy
@@ -49,3 +47,5 @@ terraform-destroy:
     - terraform destroy -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
   dependencies:
     - terraform-provision
+
+image: hashicorp/terraform:latest
