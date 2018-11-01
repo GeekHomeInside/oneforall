@@ -27,9 +27,9 @@ stages:
 
 before_script:
     # - git clone https://github.com/actiniumio/terraform-gcp-europe.git ${HOME}/terraform
-    - touch ${HOME}/terraform/account.json
-    - echo $GCLOUD_SERVICE_KEY > ${HOME}/terraform/account.json
-    - terraform init ${HOME}/terraform
+    - touch ./account.json
+    - echo $GCLOUD_SERVICE_KEY > ./account.json
+    - terraform init
 
 terraform-plan:
   stage: plan
