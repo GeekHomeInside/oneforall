@@ -44,7 +44,6 @@ terraform-plan:
   cache:
     paths:
       - planfile
-      - *.tfstate
 
 terraform-apply:
   stage: apply
@@ -54,7 +53,6 @@ terraform-apply:
   cache:
     paths:
       - planfile
-      - *.tfstate
   dependencies:
     - terraform-plan
 
