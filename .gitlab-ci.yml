@@ -1,39 +1,34 @@
 stages:
-  - test
-  - storekey
+  # - test
+  # - storekey
   - provision
   - destroy
 
-variables:
-  COMMIT_AUTHOR_EMAIL: "guiadco@geekhomeinside.com"
+# variables:
+#   COMMIT_AUTHOR_EMAIL: "guiadco@geekhomeinside.com"
+#
+# build-docs:
+#   stage: test
+#   image: python:latest
+#   script:
+#     - pip install --user virtualenv
+#     - chmod +x .circleci/deploy-ghpages.sh
+#     - PATH=$PATH:/root/.local/bin .circleci/deploy-ghpages.sh docs
+#   only:
+#     - master
+#
+# ansible-lint:
+#   stage: test
+#   image: python:latest
+#   script:
+#     - chmod +x ./.circleci/lint.sh
+#     - ./.circleci/lint.sh
 
-build-docs:
-  stage: test
-  image: python:latest
-  script:
-    - pip install --user virtualenv
-    - chmod +x .circleci/deploy-ghpages.sh
-    - PATH=$PATH:/root/.local/bin .circleci/deploy-ghpages.sh docs
-  only:
-    - master
-
-ansible-lint:
-  stage: test
-  image: python:latest
-  script:
-    - chmod +x ./.circleci/lint.sh
-    - ./.circleci/lint.sh
-
-storekey:
-  stage: storekey
-  image: python:latest
-  script:
-    - git clone https://github.com/actiniumio/terraform-gcp-europe.git ~/terraform
+before_script:
+    - git clone https://github.com/actiniumio/terraform-gcp-europe.git ${HOME}/terraform
     - touch ${HOME}/terraform/account.json
     - echo $GCLOUD_SERVICE_KEY > ${HOME}/terraform/account.json
-  cache:
-    paths:
-      - ~/terraform/
+    - terraform init
 
 terraform-provision:
   stage: provision
@@ -43,11 +38,9 @@ terraform-provision:
     - terraform validate -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815'
     - terraform plan -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815'
     - terraform apply -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
-  dependencies:
-    - storekey
   cache:
     paths:
-      - ~/terraform/
+      - ${HOME}/terraform/
 
 terraform-destroy:
   stage: destroy
