@@ -8,7 +8,21 @@ variables:
   COMMIT_AUTHOR_EMAIL: "guiadco@geekhomeinside.com"
 
 build-docs:
-  stage: Test Lint & Deploy GHPages
+  stage: Test Lint and Deploy GHPages
+  image: python:latest
+  script:
+  - cd ..
+  - rm -rf geekhomeinside
+  - git clone --depth 1 https://guiadco:$GITHUB_ACCESS_TOKEN@github.com/guiadco/geekhomeinside.git
+  - cd geekhomeinside
+  - pip install --user virtualenv
+  - chmod +x .gitlabci/deploy-ghpages.sh
+  - PATH=$PATH:/root/.local/bin .gitlabci/deploy-ghpages.sh doc
+  except:
+    - master
+
+deploy-docs:
+  stage: Test Lint and Deploy GHPages
   image: python:latest
   script:
   - cd ..
@@ -22,7 +36,7 @@ build-docs:
     - master
 
 ansible-lint:
-  stage: Test Lint & Deploy GHPages
+  stage: Test Lint and Deploy GHPages
   image: python:latest
   script:
     - chmod +x ./.gitlabci/lint.sh
@@ -65,7 +79,7 @@ deploy-geekhomeinside-centos7:
     - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- 'sudo ansible-playbook -i .gitlabci/hosts.gitlabci install.yml'
     - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- 'docker ps -a'
     - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- 'docker volume ls'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- 'll -R /opt/geekhomeinside'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- 'ls -ltrR /opt/geekhomeinside'
     - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- 'chmod +x .gitlabci/security-bench.sh'
     - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- '.gitlabci/security-bench.sh'
   dependencies:
