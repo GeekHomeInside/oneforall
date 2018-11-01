@@ -1,5 +1,5 @@
 stages:
-  # - test
+  - test
   - validate-plan-apply
   - destroy
 
@@ -10,7 +10,7 @@ stages:
 #   image: andthensome/alpine-hugo-git-bash:0.31.2
 #   script:
 #   - rm -rf public
-#   - git clone --depth 1 https://<username>:$GITHUB_ACCESS_TOKEN@github.com/<username>/<username>.github.io.git public
+#   - git clone --depth 1 https://actiniumio:$GITHUB_ACCESS_TOKEN@github.com/<username>/<username>.github.io.git public
 #   - hugo --config config.production.toml
 #   - cd public
 #   - git config user.email "<your git email>"
@@ -27,13 +27,13 @@ stages:
 #     - PATH=$PATH:/root/.local/bin .gitlabci/deploy-ghpages.sh docs
 #   only:
 #     - master
-#
-# ansible-lint:
-#   stage: test
-#   image: python:latest
-#   script:
-#     - chmod +x ./.gitlabci/lint.sh
-#     - ./.gitlabci/lint.sh
+
+ansible-lint:
+  stage: test
+  image: python:latest
+  script:
+    - chmod +x ./.gitlabci/lint.sh
+    - ./.gitlabci/lint.sh
 
 terraform-validate-plan-apply:
   stage: validate-plan-apply
@@ -51,9 +51,28 @@ terraform-validate-plan-apply:
     - terraform plan -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -out "planfile"
     - terraform apply -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
   cache:
-    key: "PIPELINE-$CI_PIPELINE_ID"
+    key: "TERRAFORM-$CI_PIPELINE_ID"
     paths:
       - terraform-gcp-europe/
+
+gcp-test-allspark-centos7:
+  stage: test install on centos 7
+  image:
+    name: google/cloud-sdk:latest
+    entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+  script:
+    - echo $GCLOUD_SERVICE_KEY > ./account.json
+    - gcloud auth activate-service-account --key-file=./account.json
+    - gcloud --quiet config set project $GCP_PROJECT_ID
+    - gcloud --quiet config set compute/zone $GCP_PROJECT_ZONE
+    - gcloud compute --quiet scp --recurse . bot_actinium@allspark-1:~/ --zone "$GCP_PROJECT_ZONE"
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-1 -- 'sudo yum -y install epel-release'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-1 -- 'sudo yum -y install ansible'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-1 -- 'ansible-playbook -i .gitlabci/hosts install.yml'
+  dependencies:
+    - terraform-validate-plan-apply
 
 terraform-destroy:
   stage: destroy
@@ -66,8 +85,8 @@ terraform-destroy:
     - cd terraform-gcp-europe
     - terraform destroy -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
   cache:
-    key: "PIPELINE-$CI_PIPELINE_ID"
+    key: "TERRAFORM-$CI_PIPELINE_ID"
     paths:
       - terraform-gcp-europe/
   dependencies:
-    - terraform-validate-plan-apply
+    - gcp-test-allspark-centos7
