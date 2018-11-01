@@ -1,13 +1,14 @@
 stages:
-  - test
-  - validate-plan-apply
-  - test install on centos 7
-  - destroy
+  - Test Lint & Deploy GHPages
+  - Provisioning GCP
+  - Deploy in centos 7.5.1804
+  - Destroy GCP
 
 variables:
   COMMIT_AUTHOR_EMAIL: "guiadco@geekhomeinside.com"
 
 build-docs:
+  stage: Test Lint & Deploy GHPages
   image: python:latest
   script:
   - cd ..
@@ -21,14 +22,14 @@ build-docs:
     - master
 
 ansible-lint:
-  stage: test
+  stage: Test Lint & Deploy GHPages
   image: python:latest
   script:
     - chmod +x ./.gitlabci/lint.sh
     - ./.gitlabci/lint.sh
 
-terraform-validate-plan-apply:
-  stage: validate-plan-apply
+terraform-centos7:
+  stage: Provisioning GCP
   image:
     name: hashicorp/terraform:light
     entrypoint:
@@ -47,8 +48,8 @@ terraform-validate-plan-apply:
     paths:
       - terraform-gcp-europe/
 
-gcp-test-geekhomeinside-centos7:
-  stage: test install on centos 7
+deploy-geekhomeinside-centos7:
+  stage: Deploy in centos 7.5.1804
   image:
     name: google/cloud-sdk:latest
     entrypoint:
@@ -68,10 +69,10 @@ gcp-test-geekhomeinside-centos7:
     - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- 'chmod +x .gitlabci/security-bench.sh'
     - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- '.gitlabci/security-bench.sh'
   dependencies:
-    - terraform-validate-plan-apply
+    - terraform-centos7
 
 terraform-destroy:
-  stage: destroy
+  stage: Destroy GCP
   image:
     name: hashicorp/terraform:light
     entrypoint:
@@ -85,4 +86,4 @@ terraform-destroy:
     paths:
       - terraform-gcp-europe/
   dependencies:
-    - gcp-test-geekhomeinside-centos7
+    - deploy-geekhomeinside-centos7
