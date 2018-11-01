@@ -4,7 +4,7 @@
     path: "{{ allspark_root_directory }}/config/haproxy"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0700
+    mode: 0740
 
 - name: "HAProxy - Certificates"
   include_tasks: "certificates.yml"
@@ -14,6 +14,9 @@
   template:
     src: templates/haproxy.cfg.j2
     dest: "{{ allspark_root_directory }}/config/haproxy/haproxy.cfg"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0740
   register: config_tpl
 
 - name: "HAProxy - Container"

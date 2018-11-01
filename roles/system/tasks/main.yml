@@ -36,7 +36,7 @@
     state: "directory"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0700
+    mode: 0740
   become: true
 
 - name: FS - Ensuring Allspark directory owner
@@ -44,5 +44,5 @@
     path: "{{ allspark_root_directory }}"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0700
+    mode: 0740
   become: true

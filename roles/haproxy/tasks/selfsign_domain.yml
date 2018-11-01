@@ -8,6 +8,9 @@
   copy:
     src: "{{ allspark_haproxy.ssl.certificates_directory }}/{{ item.host }}.pem"
     dest: "{{ allspark_root_directory }}/data/secrets/haproxy/certificates/imported/{{ item.host }}.combined.pem"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0740
   when: local_cert_file.stat.exists
 
 - name: "{{ item.name }} - Stat remote user provided certificate"
@@ -20,12 +23,18 @@
     path: "{{ allspark_root_directory }}/data/secrets/haproxy/private_keys/{{ item.host }}.key"
     type: RSA
     size: 2048
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0740
   register: priv
   when: not remote_cert_file.stat.exists
 
 
 - name: "{{ item.name }} - CSR"
   openssl_csr:
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0740
     path: "{{ allspark_root_directory }}/data/secrets/haproxy/csrs/{{ item.host }}.csr"
     privatekey_path: "{{ allspark_root_directory }}/data/secrets/haproxy/private_keys/{{ item.host }}.key"
     common_name: "{{ item.host }}"
@@ -85,3 +94,6 @@
     src: "{%- if remote_cert_file.stat.exists -%}imported{%- else -%}generated{%- endif -%}/{{ item.host }}.combined.pem"
     dest: "{{ allspark_root_directory}}/data/secrets/haproxy/certificates/{{ item.host }}.combined.pem"
     state: link
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0740

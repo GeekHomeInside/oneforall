@@ -4,7 +4,7 @@
     path: "{{ allspark_root_directory }}/{{item}}"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0700
+    mode: 0740
   with_items:
     - config
     - data
@@ -14,6 +14,9 @@
   copy:
     src: files/requirements.txt
     dest: "{{ allspark_root_directory }}/config/pip-requirements.txt"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0740
 
 - name: Installing python libraries using requirements file
   pip:

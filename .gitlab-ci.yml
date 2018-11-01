@@ -48,11 +48,11 @@ terraform-validate-plan-apply:
     - cd terraform-gcp-europe
     - echo $GCLOUD_SERVICE_KEY > ./account.json
     - terraform init
-    - terraform validate -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815'
-    - terraform plan -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -out "planfile"
-    - terraform apply -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
+    - terraform validate -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark-centos7' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815'
+    - terraform plan -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark-centos7' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -out "planfile"
+    - terraform apply -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark-centos7' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
   cache:
-    key: "TERRAFORM-$CI_PIPELINE_ID"
+    key: "TERRAFORM-CENTOS7-$CI_PIPELINE_ID"
     paths:
       - terraform-gcp-europe/
 
@@ -68,13 +68,14 @@ gcp-test-allspark-centos7:
     - gcloud auth activate-service-account --key-file=./account.json
     - gcloud --quiet config set project $GCP_PROJECT_ID
     - gcloud --quiet config set compute/zone $GCP_PROJECT_ZONE
-    - gcloud compute --quiet scp --recurse . bot_actinium@allspark-1:~/ --zone "$GCP_PROJECT_ZONE"
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-1 -- 'sudo yum -y install ansible'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-1 -- 'sudo ansible-playbook -i .gitlabci/hosts.gitlabci install.yml'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-1 -- 'docker ps -a'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-1 -- 'docker volume ls'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-1 -- 'chmod +x .gitlabci/security-bench.sh'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-1 -- '.gitlabci/security-bench.sh'
+    - gcloud compute --quiet scp --recurse . bot_actinium@allspark-centos7-1:~/ --zone "$GCP_PROJECT_ZONE"
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-centos7-1 -- 'sudo yum -y install ansible'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-centos7-1 -- 'sudo ansible-playbook -i .gitlabci/hosts.gitlabci install.yml'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-centos7-1 -- 'docker ps -a'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-centos7-1 -- 'docker volume ls'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-centos7-1 -- 'ls -Rltr /opt/allspark'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-centos7-1 -- 'chmod +x .gitlabci/security-bench.sh'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" bot_actinium@allspark-centos7-1 -- '.gitlabci/security-bench.sh'
   dependencies:
     - terraform-validate-plan-apply
 
@@ -87,9 +88,9 @@ terraform-destroy:
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
   script:
     - cd terraform-gcp-europe
-    - terraform destroy -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
+    - terraform destroy -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark-centos7' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
   cache:
-    key: "TERRAFORM-$CI_PIPELINE_ID"
+    key: "TERRAFORM-CENTOS7-$CI_PIPELINE_ID"
     paths:
       - terraform-gcp-europe/
   dependencies:

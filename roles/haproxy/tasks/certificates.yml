@@ -15,7 +15,7 @@
     path: "{{ item }}"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: 0700
+    mode: 0740
   with_items:
     - "{{ allspark_root_directory }}/data/secrets/haproxy/private_keys/"
     - "{{ allspark_root_directory }}/data/secrets/haproxy/csrs/"
@@ -37,6 +37,9 @@
     path: "{{ allspark_root_directory }}/data/secrets/haproxy/csrs/ca.csr"
     privatekey_path: "{{ allspark_root_directory }}/data/secrets/haproxy/private_keys/ca.key"
     common_name: "Allspark CA"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0740
     key_usage:
     - cRLSign
     - digitalSignature
@@ -55,6 +58,9 @@
     path: "{{ allspark_root_directory }}/data/ssl/certificates/ca.crt"
     privatekey_path: "{{ allspark_root_directory }}/data/secrets/haproxy/private_keys/ca.key"
     csr_path: "{{ allspark_root_directory }}/data/secrets/haproxy/csrs/ca.csr"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0740
     provider: selfsigned
   register: cert
   when: allspark_haproxy.ssl.selfsigned.enabled and not crt_file.stat.exists or priv is changed or csr is changed
@@ -67,3 +73,6 @@
   template:
     src: templates/crt-list.txt.j2
     dest: "{{ allspark_root_directory }}/config/haproxy/crt-list.txt"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0740
