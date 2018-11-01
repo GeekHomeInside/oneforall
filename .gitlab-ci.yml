@@ -4,7 +4,9 @@ stages:
   - destroy
 
 before_script:
-  - echo "foo"
+  - git clone https://github.com/actiniumio/terraform-gcp-europe.git ~/terraform
+  - touch ${HOME}/terraform/account.json
+  - echo $GCLOUD_SERVICE_KEY > ${HOME}/terraform/account.json
 
 variables:
   COMMIT_AUTHOR_EMAIL: "guiadco@geekhomeinside.com"
@@ -27,15 +29,11 @@ ansible-lint:
     - ./.circleci/lint.sh
 
 terraform-provision:
-  before_script:
-    - git clone https://github.com/actiniumio/terraform-gcp-europe.git ~/terraform
-    - touch ${HOME}/terraform/account.json
-    - echo $GCLOUD_SERVICE_KEY > ${HOME}/terraform/account.json
-    - terraform init
   stage: provision
   image: hashicorp/terraform:light
   script:
     - cd ~/terraform
+    - terraform init
     - terraform validate -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815'
     - terraform plan -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815'
     - terraform apply -var 'project-name=$GCP_PROJECT_ID' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
