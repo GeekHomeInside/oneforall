@@ -13,6 +13,9 @@
   file:
     state: directory
     path: "{{ item }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0700
   with_items:
     - "{{ allspark_root_directory }}/data/secrets/haproxy/private_keys/"
     - "{{ allspark_root_directory }}/data/secrets/haproxy/csrs/"

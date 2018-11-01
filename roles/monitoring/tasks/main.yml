@@ -56,10 +56,13 @@
     labels:
       "heritage": "allspark"
 
-- name: Create Prometheus config folder
+- name: Create Prometheus config directory
   file:
     state: directory
     path: "{{ allspark_root_directory }}/config/prometheus"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0700
   when: allspark_monitoring.enabled
 
 - name: Generate Prometheus configuration
