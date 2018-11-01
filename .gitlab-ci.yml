@@ -1,5 +1,5 @@
 stages:
-  - Test Lint & Deploy GHPages
+  - Test Lint and Deploy GHPages
   - Provisioning GCP
   - Deploy in centos 7.5.1804
   - Destroy GCP
