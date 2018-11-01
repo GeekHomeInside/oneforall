@@ -1,9 +1,7 @@
 stages:
   # - test
   # - storekey
-  - validate
-  - plan
-  - apply
+  - validate-plan-apply
   - destroy
 
 # variables:
@@ -35,8 +33,8 @@ before_script:
     - ls -ltr
     - terraform init
 
-terraform-validate:
-  stage: validate
+terraform-validate-plan-apply:
+  stage: validate-plan-apply
   image:
     name: hashicorp/terraform:light
     entrypoint:
@@ -44,40 +42,8 @@ terraform-validate:
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
   script:
     - terraform validate -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815'
-
-terraform-plan:
-  stage: plan
-  image:
-    name: hashicorp/terraform:light
-    entrypoint:
-    - '/usr/bin/env'
-    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-  script:
     - terraform plan -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -out "planfile"
-    - ls -ltr
-    - pwd
-  cache:
-    paths:
-      - /root/terraform/planfile
-  dependencies:
-    - terraform-validate
-
-terraform-apply:
-  stage: apply
-  image:
-    name: hashicorp/terraform:light
-    entrypoint:
-    - '/usr/bin/env'
-    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-  script:
     - terraform apply -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
-    - ls -ltr
-    - pwd
-  cache:
-    paths:
-      - /root/terraform/terraform.tfstate
-  dependencies:
-    - terraform-plan
 
 terraform-destroy:
   stage: destroy
@@ -89,4 +55,4 @@ terraform-destroy:
   script:
     - terraform destroy -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
   dependencies:
-    - terraform-apply
+    - terraform-validate-plan-apply
