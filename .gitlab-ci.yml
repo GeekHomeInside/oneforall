@@ -6,6 +6,18 @@ stages:
 # variables:
 #   COMMIT_AUTHOR_EMAIL: "guiadco@geekhomeinside.com"
 #
+# github_pages:
+#   image: andthensome/alpine-hugo-git-bash:0.31.2
+#   script:
+#   - rm -rf public
+#   - git clone --depth 1 https://<username>:$GITHUB_ACCESS_TOKEN@github.com/<username>/<username>.github.io.git public
+#   - hugo --config config.production.toml
+#   - cd public
+#   - git config user.email "<your git email>"
+#   - git config --global user.name "<your git name>"
+#   - git add -A
+#   - git commit -m "Build from $CI_SERVER_NAME $CI_PIPELINE_ID"
+#   - git push
 # build-docs:
 #   stage: test
 #   image: python:latest
@@ -33,15 +45,13 @@ terraform-validate-plan-apply:
   script:
     - git clone https://github.com/actiniumio/terraform-gcp-europe.git
     - cd terraform-gcp-europe
-    - ls -ltr
-    - pwd
     - echo $GCLOUD_SERVICE_KEY > ./account.json
-    - ls -ltr
     - terraform init
     - terraform validate -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815'
     - terraform plan -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -out "planfile"
     - terraform apply -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
   cache:
+    key: "PIPELINE-$CI_PIPELINE_ID"
     paths:
       - terraform-gcp-europe/
 
@@ -53,13 +63,10 @@ terraform-destroy:
     - '/usr/bin/env'
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
   script:
-    - ls -ltr
-    - pwd
     - cd terraform-gcp-europe
-    - ls -ltr
-    - pwd
     - terraform destroy -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
   cache:
+    key: "PIPELINE-$CI_PIPELINE_ID"
     paths:
       - terraform-gcp-europe/
   dependencies:
