@@ -43,7 +43,7 @@ terraform-validate:
     - '/usr/bin/env'
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
   script:
-    - terraform validate -var 'project-name=corded-skill-214716' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815'
+    - terraform validate -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815'
 
 terraform-plan:
   stage: plan
@@ -53,12 +53,12 @@ terraform-plan:
     - '/usr/bin/env'
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
   script:
-    - terraform plan -var 'project-name=corded-skill-214716' -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -out "planfile"
+    - terraform plan -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var 'region=europe-west1-b' -var 'instance-name=allspark' -var 'subnetwork-region=europe-west1' -var 'network=allspark-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -out "planfile"
     - ls -ltr
     - pwd
   cache:
     paths:
-      - planfile
+      - /root/terraform/planfile
   dependencies:
     - terraform-validate
 
@@ -75,7 +75,7 @@ terraform-apply:
     - pwd
   cache:
     paths:
-      - terraform.tfstate
+      - /root/terraform/terraform.tfstate
   dependencies:
     - terraform-plan
 
