@@ -7,11 +7,12 @@ stages:
 variables:
   COMMIT_AUTHOR_EMAIL: "guiadco@geekhomeinside.com"
 
-build-docs
+build-docs:
   image: python:latest
   script:
+  - cd ..
   - git clone --depth 1 https://guiadco:$GITHUB_ACCESS_TOKEN@github.com/guiadco/geekhomeinside.git
-  - cd allspark
+  - cd geekhomeinside
   - pip install --user virtualenv
   - chmod +x .gitlabci/deploy-ghpages.sh
   - PATH=$PATH:/root/.local/bin .gitlabci/deploy-ghpages.sh docs
