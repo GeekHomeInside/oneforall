@@ -13,8 +13,8 @@ stages:
 #   image: python:latest
 #   script:
 #     - pip install --user virtualenv
-#     - chmod +x .circleci/deploy-ghpages.sh
-#     - PATH=$PATH:/root/.local/bin .circleci/deploy-ghpages.sh docs
+#     - chmod +x .gitlabci/deploy-ghpages.sh
+#     - PATH=$PATH:/root/.local/bin .gitlabci/deploy-ghpages.sh docs
 #   only:
 #     - master
 #
@@ -22,8 +22,8 @@ stages:
 #   stage: test
 #   image: python:latest
 #   script:
-#     - chmod +x ./.circleci/lint.sh
-#     - ./.circleci/lint.sh
+#     - chmod +x ./.gitlabci/lint.sh
+#     - ./.gitlabci/lint.sh
 
 before_script:
     # - git clone https://github.com/actiniumio/terraform-gcp-europe.git ${HOME}/terraform
