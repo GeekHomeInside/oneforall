@@ -356,8 +356,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#on-the-allspark-machine" title="On the allspark machine" class="md-nav__link">
-    On the allspark machine
+  <a href="#on-the-geekhomeinside-machine" title="On the GeekHomeInside machine" class="md-nav__link">
+    On the GeekHomeInside machine
   </a>
   
 </li>
@@ -396,8 +396,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#on-the-allspark-machine_1" title="On the allspark machine" class="md-nav__link">
-    On the allspark machine
+  <a href="#on-the-geekhomeinside-machine_1" title="On the GeekHomeInside machine" class="md-nav__link">
+    On the GeekHomeInside machine
   </a>
   
 </li>
@@ -477,8 +477,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#on-the-allspark-machine" title="On the allspark machine" class="md-nav__link">
-    On the allspark machine
+  <a href="#on-the-geekhomeinside-machine" title="On the GeekHomeInside machine" class="md-nav__link">
+    On the GeekHomeInside machine
   </a>
   
 </li>
@@ -517,8 +517,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#on-the-allspark-machine_1" title="On the allspark machine" class="md-nav__link">
-    On the allspark machine
+  <a href="#on-the-geekhomeinside-machine_1" title="On the GeekHomeInside machine" class="md-nav__link">
+    On the GeekHomeInside machine
   </a>
   
 </li>
@@ -567,9 +567,9 @@
 </div>
 <h2 id="backup-guide">Backup guide</h2>
 <h3 id="requirements">Requirements</h3>
-<h4 id="on-the-allspark-machine">On the allspark machine</h4>
+<h4 id="on-the-geekhomeinside-machine">On the GeekHomeInside machine</h4>
 <ul>
-<li>Have an allspark instance running</li>
+<li>Have an GeekHomeInside instance running</li>
 </ul>
 <h3 id="ansible-backup-playbook">Ansible Backup playbook</h3>
 <ul>
@@ -580,13 +580,13 @@
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You can change the release destination (default: <code class="codehilite">/opt/allspark/backup</code>) like so:
-<div class="codehilite"><pre><span></span>ansible-playbook -i hosts backup.yml --extra-vars <span class="s1">&#39;allspark_backup_directory=/tmp/allspark_backup&#39;</span>
+<p>You can change the release destination (default: <code class="codehilite">/opt/GeekHomeInside/backup</code>) like so:
+<div class="codehilite"><pre><span></span>ansible-playbook -i hosts backup.yml --extra-vars <span class="s1">&#39;allspark_backup_directory=/tmp/GeekHomeInside_backup&#39;</span>
 </pre></div></p>
 </div>
 <h2 id="restore-guide">Restore guide</h2>
 <h3 id="requirements_1">Requirements</h3>
-<h4 id="on-the-allspark-machine_1">On the allspark machine</h4>
+<h4 id="on-the-geekhomeinside-machine_1">On the GeekHomeInside machine</h4>
 <ul>
 <li>Have the same installation of your backup to be able to restore your release</li>
 </ul>
@@ -594,7 +594,7 @@
 <p class="admonition-title">Warning</p>
 <p>Pay attention:</p>
 <ul>
-<li>A component disabled (on the allspark machine) won't be imported on restore</li>
+<li>A component disabled (on the GeekHomeInside machine) won't be imported on restore</li>
 <li>restore needs a running instance</li>
 <li>Previous datas of the restored containers will be lost (and aligned on the backup ones)</li>
 </ul>
