@@ -12,7 +12,6 @@ mattermost_image: mattermost/mattermost-prod-app
 mattermost_postgresql_image: postgres
 intranet_image: drupal
 intradb_image: postgres
-keepass_image: boogy/apache-php
 kodidb_image: mysql
 web_image: boogy/apache-php
 
@@ -32,7 +31,6 @@ mattermost_tag: latest
 mattermost_postgresql_tag: latest
 intranet_tag: latest
 intradb_tag: latest
-keepass_tag: latest
 kodidb_tag: latest
 web_tag: latest
 
@@ -90,10 +88,6 @@ downloads:
     enabled: "{{ allspark_intranet.enabled }}"
     image: "{{ intradb_image }}"
     tag: "{{ intradb_tag }}"
-  keepass:
-    enabled: "{{ allspark_keepass.enabled }}"
-    image: "{{ keepass_image }}"
-    tag: "{{ keepass_tag }}"
   kodidb:
     enabled: "{{ allspark_kodidb.enabled }}"
     image: "{{ kodidb_image }}"

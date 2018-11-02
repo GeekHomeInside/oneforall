@@ -47,3 +47,34 @@ haproxy_endpoints:
     backends:
     - mode: http
       port: 8000
+
+  - name: intradb
+    enabled: "{{ allspark_intranet.enabled }}"
+    host: "intradb.{{ allspark_root_domain }}"
+    backends:
+    - mode: http
+      port: 5432
+
+  - name: intranet
+    enabled: "{{ allspark_intranet.enabled }}"
+    host: "intranet.{{ allspark_root_domain }}"
+    backends:
+    - mode: http
+      port: 8080
+
+  - name: web
+    enabled: "{{ allspark_web.enabled }}"
+    host: "{{ allspark_root_domain }}"
+    backends:
+    - mode: http
+      port: 80
+    - mode: https
+      port: 443
+
+  - name: kodidb
+    enabled: "{{ allspark_kodidb.enabled }}"
+    host: "kodidb.{{ allspark_root_domain }}"
+    backends:
+    - mode: tcp
+      port: 3306
+      exposed_port: 3307

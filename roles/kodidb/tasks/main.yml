@@ -16,8 +16,6 @@
       - name:  bridge
     env:
       MYSQL_ROOT_PASSWORD: "8SHALW6DX!IE$5cW2*//"
-    ports:
-      - "3307:3306"
     labels:
       "traefik.backend": "kodidb"
       "traefik.frontend.rule": "Host:kodidb.{{ allspark_root_domain }}"

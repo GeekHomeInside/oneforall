@@ -9,7 +9,6 @@
     - haproxy
     - utils
     - monitoring
-    # - web
-    # - intranet
-    # - keepass
-    # - kodidb
+    - web
+    - intranet
+    - kodidb
