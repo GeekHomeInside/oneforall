@@ -5,8 +5,8 @@
 ## Backup guide
 ### Requirements
 
-#### On the allspark machine
-- Have an allspark instance running
+#### On the GeekHomeInside machine
+- Have an GeekHomeInside instance running
 
 ### Ansible Backup playbook
 
@@ -17,21 +17,21 @@ ansible-playbook -i hosts backup.yml
 ```
 
 !!! Note
-    You can change the release destination (default: `/opt/allspark/backup`) like so:
+    You can change the release destination (default: `/opt/GeekHomeInside/backup`) like so:
     ```bash
-    ansible-playbook -i hosts backup.yml --extra-vars 'allspark_backup_directory=/tmp/allspark_backup'
+    ansible-playbook -i hosts backup.yml --extra-vars 'allspark_backup_directory=/tmp/GeekHomeInside_backup'
     ```
 
 ## Restore guide
 ### Requirements
 
-#### On the allspark machine
+#### On the GeekHomeInside machine
 - Have the same installation of your backup to be able to restore your release
 
 !!! warning
     Pay attention:
 
-    - A component disabled (on the allspark machine) won't be imported on restore
+    - A component disabled (on the GeekHomeInside machine) won't be imported on restore
     - restore needs a running instance
     - Previous datas of the restored containers will be lost (and aligned on the backup ones)
 

@@ -3,16 +3,20 @@
 
 ## Components
 
-| Components    | Usage                                                 |
-| ------------- | ----------------------------------------------------- |
-| Portainer     | Container management                                  |
-| Grafana       | Monitoring                                            |
-| Prometheus    | Metrics scraping / store                              |
-| CAdvisor      | Container metrics                                     |
-| Node exporter | System metrics                                        |
-| HAProxy       | Reverse proxy                                         |
-| Volumerize    | Backup and Restore solution for Docker volume backups |
-| MatterMost    | Default Instant Chat (Slack like)                     |
+| Components       | Usage                                                                                                |
+| ---------------- | ---------------------------------------------------------------------------------------------------- |
+| Portainer        | Container management                                                                                 |
+| Grafana          | Monitoring                                                                                           |
+| Prometheus       | Metrics scraping / store                                                                             |
+| CAdvisor         | Container metrics                                                                                    |
+| Node exporter    | System metrics                                                                                       |
+| HAProxy          | Reverse proxy                                                                                        |
+| Volumerize       | Backup and Restore solution for Docker volume backups                                                |
+| MatterMost       | Default Instant Chat (Slack like)                                                                    |
+| PostgreSQL       | The PostgreSQL object-relational database system provides reliability and data integrity             |
+| MySQL            | MySQL is a widely used, open-source relational database management system (RDBMS).                   |
+| Drupal           | Drupal is an open source content management platform powering millions of websites and applications. |
+| boogy/apache-php | Docker image based on ubuntu which provides apache server with php and ssl.                          |
 
 
 ## OS Compatibility
@@ -27,12 +31,12 @@ Allspark is compatible with:
 ## Playbooks
 - `release.yml`
 
-> Package an Allspark release in a `.tar.gz` file
+> Package an GeekHomeInside release in a `.tar.gz` file
 
 - `setup.yml`
 
-> Load a packaged Allspark release into the system
+> Load a packaged GeekHomeInside release into the system
 
 - `install.yml`
 
-> Install Allspark on the machine (either with an internet access or after using `setup.yml` playbook)
+> Install GeekHomeInside on the machine (either with an internet access or after using `setup.yml` playbook)

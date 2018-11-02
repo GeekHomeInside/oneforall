@@ -2,11 +2,11 @@
 
 ## Requirements
 
-### On the allspark machine
+### On the GeekHomeInside machine
 - Docker ( tested with version 18.06.0 )
 
 ### On the control machine
-- Ansible ( tested with version 2.5.5 )
+- Ansible ( tested with version 2.7.1 )
 
 ## Ansible playbook
 
@@ -19,7 +19,7 @@ If you are on a migration see the [operation pages](/operation.md)
 
 ### Online install
 
-- Change the hosts file to point to the allspark machine.
+- Change the hosts file to point to the GeekHomeInside machine.
 
 ```bash
 ansible-playbook -i hosts install.yml
@@ -46,11 +46,11 @@ ansible-playbook -i hosts release.yml
 localhost ansible_connection=local
 ```
 
-it will generate a `.tar.gz` file at `allspark_release_destination`.
+it will generate a `.tar.gz` file at `GeekHomeInside_release_destination`.
 This file needs to be copied along with the `group_vars`
-directory to the offline allspark machine.
+directory to the offline GeekHomeInside machine.
 
-#### 1. On the offline allspark machine
+#### 1. On the offline GeekHomeInside machine
 
 - Import the `group_vars` directory and the release `.tar.gz`
 - Set the `allspark_release_destination` in the `group_vars/all.yml` file to point to the release.
