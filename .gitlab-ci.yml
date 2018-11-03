@@ -54,16 +54,36 @@ terraform-centos7:
     - cd terraform-gcp-europe
     - echo $GCLOUD_SERVICE_KEY > ./account.json
     - terraform init
-    - terraform validate -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-centos7' -var 'subnetwork-region=europe-west1' -var 'network=geekhomeinside-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815'
-    - terraform plan -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-centos7' -var 'subnetwork-region=europe-west1' -var 'network=geekhomeinside-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815'
-    - terraform apply -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-centos7' -var 'subnetwork-region=europe-west1' -var 'network=geekhomeinside-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
+    - terraform validate -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-centos7' -var 'subnetwork-region=europe-west1' -var 'network=geekhomeinside-centos7' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -var 'disk-size=20'
+    - terraform plan -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-centos7' -var 'subnetwork-region=europe-west1' -var 'network=geekhomeinside-centos7' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -var 'disk-size=20'
+    - terraform apply -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-centos7' -var 'subnetwork-region=europe-west1' -var 'network=geekhomeinside-centos7' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -var 'disk-size=20' -auto-approve
   cache:
     key: "TERRAFORM-CENTOS7-$CI_PIPELINE_ID"
     paths:
       - terraform-gcp-europe/
 
+terraform-ubuntu14:
+  stage: Provisioning GCP
+  image:
+    name: hashicorp/terraform:light
+    entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+  script:
+    - git clone https://github.com/actiniumio/terraform-gcp-europe.git
+    - cd terraform-gcp-europe
+    - echo $GCLOUD_SERVICE_KEY > ./account.json
+    - terraform init
+    - terraform validate -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-ubuntu14' -var 'subnetwork-region=europe-west1' -var 'network=geekhomeinside-ubuntu14' -var 'vm_type=n1-standard-2' -var 'os=ubuntu-1404-trusty-v20181022' -var 'disk-size=20'
+    - terraform plan -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-ubuntu14' -var 'subnetwork-region=europe-west1' -var 'network=geekhomeinside-ubuntu14' -var 'vm_type=n1-standard-2' -var 'os=ubuntu-1404-trusty-v20181022' -var 'disk-size=20'
+    - terraform apply -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-ubuntu14' -var 'subnetwork-region=europe-west1' -var 'network=geekhomeinside-ubuntu14' -var 'vm_type=n1-standard-2' -var 'os=ubuntu-1404-trusty-v20181022' -var 'disk-size=20' -auto-approve
+  cache:
+    key: "TERRAFORM-ubuntu14-$CI_PIPELINE_ID"
+    paths:
+      - terraform-gcp-europe/
+
 deploy-geekhomeinside-centos7:
-  stage: Deploy in centos 7.5.1804
+  stage: Test Deploy
   image:
     name: google/cloud-sdk:latest
     entrypoint:
@@ -85,7 +105,30 @@ deploy-geekhomeinside-centos7:
   dependencies:
     - terraform-centos7
 
-terraform-destroy:
+deploy-geekhomeinside-ubuntu14:
+  stage: Test Deploy
+  image:
+    name: google/cloud-sdk:latest
+    entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+  script:
+    - echo $GCLOUD_SERVICE_KEY > ./account.json
+    - gcloud auth activate-service-account --key-file=./account.json
+    - gcloud --quiet config set project $GCP_PROJECT_ID
+    - gcloud --quiet config set compute/zone $GCP_PROJECT_ZONE
+    - gcloud compute --quiet scp --recurse . guiadco4geekhomeinside@geekhomeinside-ubuntu14-1:~/ --zone "$GCP_PROJECT_ZONE"
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'sudo apt -y install ansible'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'sudo ansible-playbook -i .gitlabci/hosts.gitlabci install.yml'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'docker ps -a'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'docker volume ls'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'ls -ltrR /opt/geekhomeinside'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'chmod +x .gitlabci/security-bench.sh'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- '.gitlabci/security-bench.sh'
+  dependencies:
+    - terraform-ubuntu14
+
+terraform-destroy-centos7:
   stage: Destroy GCP
   image:
     name: hashicorp/terraform:light
@@ -94,10 +137,27 @@ terraform-destroy:
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
   script:
     - cd terraform-gcp-europe
-    - terraform destroy -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-centos7' -var 'subnetwork-region=europe-west1' -var 'network=geekhomeinside-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -auto-approve
+    - terraform destroy -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-centos7' -var 'subnetwork-region=europe-west1' -var 'network=centos7-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -var 'disk-size=20' -auto-approve
   cache:
     key: "TERRAFORM-CENTOS7-$CI_PIPELINE_ID"
     paths:
       - terraform-gcp-europe/
   dependencies:
     - deploy-geekhomeinside-centos7
+
+terraform-destroy-ubuntu14:
+  stage: Destroy GCP
+  image:
+    name: hashicorp/terraform:light
+    entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+  script:
+    - cd terraform-gcp-europe
+    - terraform destroy -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-ubuntu14' -var 'subnetwork-region=europe-west1' -var 'network=ubuntu14-network' -var 'vm_type=n1-standard-2' -var 'os=ubuntu-1404-trusty-v20181022' -var 'disk-size=20' -auto-approve
+  cache:
+    key: "TERRAFORM-ubuntu14-$CI_PIPELINE_ID"
+    paths:
+      - terraform-gcp-europe/
+  dependencies:
+    - deploy-geekhomeinside-ubuntu14
