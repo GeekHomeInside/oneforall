@@ -8,7 +8,7 @@ set -xe # Exit with nonzero exit code if anything fails
 SOURCE_BRANCH="master"
 TARGET_BRANCH="gh-pages"
 
-function doCompile {
+function doCompile () {
   make doc && \
   mv doc/* out/ && \
   rm -rf doc
