@@ -11,9 +11,13 @@ build-docs:
   stage: Test Lint and Deploy GHPages
   image: python:latest
   script:
+  - cd ..
+  - rm -rf geekhomeinside
+  - git clone https://guiadco:$GITHUB_ACCESS_TOKEN@github.com/guiadco/geekhomeinside.git
+  - cd geekhomeinside
   - pip install --user virtualenv
   - chmod +x .gitlabci/deploy-ghpages.sh
-  - PATH=$PATH:/root/.local/bin source .gitlabci/deploy-ghpages.sh docs
+  - PATH=$PATH:/root/.local/bin .gitlabci/deploy-ghpages.sh docs
   only:
     - branches
   except:
@@ -25,7 +29,7 @@ deploy-docs:
   script:
   - cd ..
   - rm -rf geekhomeinside
-  - git clone --depth 1 https://guiadco:$GITHUB_ACCESS_TOKEN@github.com/guiadco/geekhomeinside.git
+  - git clone https://guiadco:$GITHUB_ACCESS_TOKEN@github.com/guiadco/geekhomeinside.git
   - cd geekhomeinside
   - pip install --user virtualenv
   - chmod +x .gitlabci/deploy-ghpages.sh
@@ -116,6 +120,8 @@ deploy-geekhomeinside-ubuntu14:
     - gcloud --quiet config set project $GCP_PROJECT_ID
     - gcloud --quiet config set compute/zone $GCP_PROJECT_ZONE
     - gcloud compute --quiet scp --recurse . guiadco4geekhomeinside@geekhomeinside-ubuntu14-1:~/ --zone "$GCP_PROJECT_ZONE"
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'sudo apt-add-repository ppa:ansible/ansible'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'sudo apt -y update'
     - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'sudo apt -y install ansible'
     - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'sudo ansible-playbook -i .gitlabci/hosts.gitlabci install.yml'
     - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'docker ps -a'
