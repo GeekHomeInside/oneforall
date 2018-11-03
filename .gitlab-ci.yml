@@ -1,7 +1,7 @@
 stages:
   - Test Lint and Deploy GHPages
   - Provisioning GCP
-  - Deploy in centos 7.5.1804
+  - Test Deploy
   - Destroy GCP
 
 variables:
@@ -18,6 +18,8 @@ build-docs:
   - pip install --user virtualenv
   - chmod +x .gitlabci/deploy-ghpages.sh
   - PATH=$PATH:/root/.local/bin .gitlabci/deploy-ghpages.sh doc
+  only:
+    - branches
   except:
     - master
 
