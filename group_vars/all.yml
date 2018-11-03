@@ -48,7 +48,7 @@ allspark_intranet:
   enabled: false
 
 allspark_kodidb:
-  enabled: false
+  enabled: true
 
 allspark_keepass:
   enabled: false
