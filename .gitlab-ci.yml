@@ -18,7 +18,7 @@ build-docs:
   - cd geekhomeinside
   - pip install --user virtualenv
   - chmod +x .gitlabci/deploy-ghpages.sh
-  - source PATH=$PATH:/root/.local/bin .gitlabci/deploy-ghpages.sh docs
+  - PATH=$PATH:/root/.local/bin source .gitlabci/deploy-ghpages.sh docs
   only:
     - branches
   except:
