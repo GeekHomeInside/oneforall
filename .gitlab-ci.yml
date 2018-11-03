@@ -15,6 +15,7 @@ build-docs:
   - rm -rf geekhomeinside
   - git clone --depth 1 https://guiadco:$GITHUB_ACCESS_TOKEN@github.com/guiadco/geekhomeinside.git
   - cd geekhomeinside
+  - ls -ltr
   - git checkout $CI_COMMIT_REF_NAME
   - pip install --user virtualenv
   - chmod +x .gitlabci/build-ghpages.sh
