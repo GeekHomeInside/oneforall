@@ -13,7 +13,7 @@ build-docs:
   script:
   - cd ..
   - rm -rf geekhomeinside
-  - git clone --depth 1 https://guiadco:$GITHUB_ACCESS_TOKEN@github.com/guiadco/geekhomeinside.git
+  - git clone https://guiadco:$GITHUB_ACCESS_TOKEN@github.com/guiadco/geekhomeinside.git
   - cd geekhomeinside
   - pip install --user virtualenv
   - chmod +x .gitlabci/deploy-ghpages.sh
