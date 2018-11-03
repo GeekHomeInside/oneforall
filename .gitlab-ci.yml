@@ -11,15 +11,10 @@ build-docs:
   stage: Test Lint and Deploy GHPages
   image: python:latest
   script:
-  - cd ..
-  - rm -rf geekhomeinside
-  - git clone https://guiadco:$GITHUB_ACCESS_TOKEN@github.com/guiadco/geekhomeinside.git
-  - cd geekhomeinside
-  - ls -ltr
   - git checkout $CI_COMMIT_REF_NAME
   - pip install --user virtualenv
   - chmod +x .gitlabci/build-ghpages.sh
-  - PATH=$PATH:/root/.local/bin .gitlabci/build-ghpages.sh
+  - PATH=$PATH:/root/.local/bin .gitlabci/build-ghpages.sh docs
   only:
     - branches
   except:
