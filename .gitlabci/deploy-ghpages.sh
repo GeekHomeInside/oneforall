@@ -3,18 +3,25 @@
 # Taken from :
 # https://gist.github.com/domenic/ec8b0fc8ab45f39403dd
 
-
-set +x
+set +x #
 set -e # Exit with nonzero exit code if anything fails
 
 SOURCE_BRANCH="master"
 TARGET_BRANCH="gh-pages"
 
-function doCompile {
+function doCompile () {
   make doc && \
   mv doc/* out/ && \
   rm -rf doc
 }
+
+# Pull requests and commits to other branches shouldn't try to deploy, just build to verify
+if [ ! -z "$CIRCLE_PULL_REQUEST" -o "$CIRCLE_BRANCH" != "$SOURCE_BRANCH" ]; then
+    echo "Skipping deploy; just doing a build."
+    mkdir out
+    doCompile
+    exit 0
+fi
 
 # Save some useful information
 REPO=`git config remote.origin.url`
