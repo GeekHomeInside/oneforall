@@ -16,8 +16,8 @@ build-docs:
   - git clone --depth 1 https://guiadco:$GITHUB_ACCESS_TOKEN@github.com/guiadco/geekhomeinside.git
   - cd geekhomeinside
   - pip install --user virtualenv
-  - chmod +x .gitlabci/deploy-ghpages.sh
-  - PATH=$PATH:/root/.local/bin .gitlabci/deploy-ghpages.sh doc
+  - chmod +x .gitlabci/build-ghpages.sh
+  - PATH=$PATH:/root/.local/bin .gitlabci/build-ghpages.sh
   only:
     - branches
   except:
