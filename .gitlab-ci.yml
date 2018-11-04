@@ -75,8 +75,8 @@ deploy-geekhomeinside-centos7:
     - gcloud --quiet config set project $GCP_PROJECT_ID
     - gcloud --quiet config set compute/zone $GCP_PROJECT_ZONE
     - gcloud compute --quiet scp --recurse . guiadco4geekhomeinside@$CI_PIPELINE_ID-centos7-1:~/ --zone "$GCP_PROJECT_ZONE"
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-centos7-1 -- 'sudo yum -y install ansible'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-centos7-1 -- 'sudo ansible-playbook -i .gitlabci/hosts.gitlabci install.yml'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@centos7-$CI_PIPELINE_ID-1 -- 'sudo yum -y install ansible'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@centos7-$CI_PIPELINE_ID-1 -- 'sudo ansible-playbook -i .gitlabci/hosts.gitlabci install.yml'
   dependencies:
     - terraform-centos7
 
@@ -93,10 +93,10 @@ deploy-geekhomeinside-ubuntu14:
     - gcloud --quiet config set project $GCP_PROJECT_ID
     - gcloud --quiet config set compute/zone $GCP_PROJECT_ZONE
     - gcloud compute --quiet scp --recurse . guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1:~/ --zone "$GCP_PROJECT_ZONE"
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1 -- 'sudo apt-add-repository ppa:ansible/ansible'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1 -- 'sudo apt -y update'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1 -- 'sudo apt -y install ansible'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1 -- 'sudo ansible-playbook -i .gitlabci/hosts.gitlabci install.yml'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@ubuntu14-$CI_PIPELINE_ID-1 -- 'sudo apt-add-repository ppa:ansible/ansible'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@ubuntu14-$CI_PIPELINE_ID-1 -- 'sudo apt -y update'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@ubuntu14-$CI_PIPELINE_ID-1 -- 'sudo apt -y install ansible'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@ubuntu14-$CI_PIPELINE_ID-1 -- 'sudo ansible-playbook -i .gitlabci/hosts.gitlabci install.yml'
   dependencies:
     - terraform-ubuntu14
 
@@ -112,11 +112,11 @@ test-geekhomeinside-centos7:
     - gcloud auth activate-service-account --key-file=./account.json
     - gcloud --quiet config set project $GCP_PROJECT_ID
     - gcloud --quiet config set compute/zone $GCP_PROJECT_ZONE
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-centos7-1 -- 'docker ps -a'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-centos7-1 -- 'docker volume ls'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-centos7-1 -- 'ls -ltrR /opt/geekhomeinside'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-centos7-1 -- 'chmod +x .gitlabci/security-bench.sh'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-centos7-1 -- '.gitlabci/security-bench.sh'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@centos7-$CI_PIPELINE_ID-1 -- 'docker ps -a'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@centos7-$CI_PIPELINE_ID-1 -- 'docker volume ls'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@centos7-$CI_PIPELINE_ID-1 -- 'ls -ltrR /opt/geekhomeinside'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@centos7-$CI_PIPELINE_ID-1 -- 'chmod +x .gitlabci/security-bench.sh'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@centos7-$CI_PIPELINE_ID-1 -- '.gitlabci/security-bench.sh'
   dependencies:
     - deploy-geekhomeinside-centos7
 
@@ -132,11 +132,11 @@ test-geekhomeinside-ubuntu14:
     - gcloud auth activate-service-account --key-file=./account.json
     - gcloud --quiet config set project $GCP_PROJECT_ID
     - gcloud --quiet config set compute/zone $GCP_PROJECT_ZONE
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1 -- 'docker ps -a'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1 -- 'docker volume ls'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1 -- 'ls -ltrR /opt/geekhomeinside'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1 -- 'chmod +x .gitlabci/security-bench.sh'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1 -- '.gitlabci/security-bench.sh'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@ubuntu14-$CI_PIPELINE_ID-1 -- 'docker ps -a'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@ubuntu14-$CI_PIPELINE_ID-1 -- 'docker volume ls'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@ubuntu14-$CI_PIPELINE_ID-1 -- 'ls -ltrR /opt/geekhomeinside'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@ubuntu14-$CI_PIPELINE_ID-1 -- 'chmod +x .gitlabci/security-bench.sh'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@ubuntu14-$CI_PIPELINE_ID-1 -- '.gitlabci/security-bench.sh'
   dependencies:
     - deploy-geekhomeinside-ubuntu14
 
