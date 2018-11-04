@@ -1,7 +1,8 @@
 stages:
   - Test Lint and Deploy GHPages
   - Provisioning GCP
-  - Test Deploy
+  - Deploy
+  - Test and Security
   - Destroy GCP
 
 variables:
@@ -11,11 +12,6 @@ deploy-docs:
   stage: Test Lint and Deploy GHPages
   image: python:latest
   script:
-  - cd ..
-  - rm -rf geekhomeinside
-  - git clone https://guiadco:$GITHUB_ACCESS_TOKEN@github.com/guiadco/geekhomeinside.git
-  - cd geekhomeinside
-  - pip install --user virtualenv
   - chmod +x .gitlabci/deploy-ghpages.sh
   - PATH=$PATH:/root/.local/bin .gitlabci/deploy-ghpages.sh docs
 
@@ -38,9 +34,9 @@ terraform-centos7:
     - cd terraform-gcp-europe
     - echo $GCLOUD_SERVICE_KEY > ./account.json
     - terraform init
-    - terraform validate -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-centos7' -var 'subnetwork-region=europe-west1' -var 'network=geekhomeinside-centos7' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -var 'disk-size=20'
-    - terraform plan -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-centos7' -var 'subnetwork-region=europe-west1' -var 'network=geekhomeinside-centos7' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -var 'disk-size=20'
-    - terraform apply -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-centos7' -var 'subnetwork-region=europe-west1' -var 'network=geekhomeinside-centos7' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -var 'disk-size=20' -auto-approve
+    - terraform validate -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var "instance-name=$CI_PIPELINE_ID-centos7" -var 'subnetwork-region=europe-west1' -var "network=$CI_PIPELINE_ID-centos7" -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -var 'disk-size=20'
+    - terraform plan -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var "instance-name=$CI_PIPELINE_ID-centos7" -var 'subnetwork-region=europe-west1' -var "network=$CI_PIPELINE_ID-centos7" -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -var 'disk-size=20'
+    - terraform apply -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var "instance-name=$CI_PIPELINE_ID-centos7" -var 'subnetwork-region=europe-west1' -var "network=$CI_PIPELINE_ID-centos7" -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -var 'disk-size=20' -auto-approve
   cache:
     key: "TERRAFORM-CENTOS7-$CI_PIPELINE_ID"
     paths:
@@ -58,16 +54,16 @@ terraform-ubuntu14:
     - cd terraform-gcp-europe
     - echo $GCLOUD_SERVICE_KEY > ./account.json
     - terraform init
-    - terraform validate -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-ubuntu14' -var 'subnetwork-region=europe-west1' -var 'network=geekhomeinside-ubuntu14' -var 'vm_type=n1-standard-2' -var 'os=ubuntu-1404-trusty-v20181022' -var 'disk-size=20'
-    - terraform plan -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-ubuntu14' -var 'subnetwork-region=europe-west1' -var 'network=geekhomeinside-ubuntu14' -var 'vm_type=n1-standard-2' -var 'os=ubuntu-1404-trusty-v20181022' -var 'disk-size=20'
-    - terraform apply -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-ubuntu14' -var 'subnetwork-region=europe-west1' -var 'network=geekhomeinside-ubuntu14' -var 'vm_type=n1-standard-2' -var 'os=ubuntu-1404-trusty-v20181022' -var 'disk-size=20' -auto-approve
+    - terraform validate -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var "instance-name=$CI_PIPELINE_ID-ubuntu14" -var 'subnetwork-region=europe-west1' -var "network=$CI_PIPELINE_ID-ubuntu14" -var 'vm_type=n1-standard-2' -var 'os=ubuntu-1404-trusty-v20181022' -var 'disk-size=20'
+    - terraform plan -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var "instance-name=$CI_PIPELINE_ID-ubuntu14" -var 'subnetwork-region=europe-west1' -var "network=$CI_PIPELINE_ID-ubuntu14" -var 'vm_type=n1-standard-2' -var 'os=ubuntu-1404-trusty-v20181022' -var 'disk-size=20'
+    - terraform apply -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var "instance-name=$CI_PIPELINE_ID-ubuntu14" -var 'subnetwork-region=europe-west1' -var "network=$CI_PIPELINE_ID-ubuntu14" -var 'vm_type=n1-standard-2' -var 'os=ubuntu-1404-trusty-v20181022' -var 'disk-size=20' -auto-approve
   cache:
     key: "TERRAFORM-ubuntu14-$CI_PIPELINE_ID"
     paths:
       - terraform-gcp-europe/
 
 deploy-geekhomeinside-centos7:
-  stage: Test Deploy
+  stage: Deploy
   image:
     name: google/cloud-sdk:latest
     entrypoint:
@@ -78,19 +74,14 @@ deploy-geekhomeinside-centos7:
     - gcloud auth activate-service-account --key-file=./account.json
     - gcloud --quiet config set project $GCP_PROJECT_ID
     - gcloud --quiet config set compute/zone $GCP_PROJECT_ZONE
-    - gcloud compute --quiet scp --recurse . guiadco4geekhomeinside@geekhomeinside-centos7-1:~/ --zone "$GCP_PROJECT_ZONE"
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- 'sudo yum -y install ansible'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- 'sudo ansible-playbook -i .gitlabci/hosts.gitlabci install.yml'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- 'docker ps -a'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- 'docker volume ls'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- 'ls -ltrR /opt/geekhomeinside'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- 'chmod +x .gitlabci/security-bench.sh'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-centos7-1 -- '.gitlabci/security-bench.sh'
+    - gcloud compute --quiet scp --recurse . guiadco4geekhomeinside@$CI_PIPELINE_ID-centos7-1:~/ --zone "$GCP_PROJECT_ZONE"
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-centos7-1 -- 'sudo yum -y install ansible'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-centos7-1 -- 'sudo ansible-playbook -i .gitlabci/hosts.gitlabci install.yml'
   dependencies:
     - terraform-centos7
 
 deploy-geekhomeinside-ubuntu14:
-  stage: Test Deploy
+  stage: Deploy
   image:
     name: google/cloud-sdk:latest
     entrypoint:
@@ -101,18 +92,53 @@ deploy-geekhomeinside-ubuntu14:
     - gcloud auth activate-service-account --key-file=./account.json
     - gcloud --quiet config set project $GCP_PROJECT_ID
     - gcloud --quiet config set compute/zone $GCP_PROJECT_ZONE
-    - gcloud compute --quiet scp --recurse . guiadco4geekhomeinside@geekhomeinside-ubuntu14-1:~/ --zone "$GCP_PROJECT_ZONE"
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'sudo apt-add-repository ppa:ansible/ansible'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'sudo apt -y update'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'sudo apt -y install ansible'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'sudo ansible-playbook -i .gitlabci/hosts.gitlabci install.yml'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'docker ps -a'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'docker volume ls'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'ls -ltrR /opt/geekhomeinside'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- 'chmod +x .gitlabci/security-bench.sh'
-    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@geekhomeinside-ubuntu14-1 -- '.gitlabci/security-bench.sh'
+    - gcloud compute --quiet scp --recurse . guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1:~/ --zone "$GCP_PROJECT_ZONE"
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1 -- 'sudo apt-add-repository ppa:ansible/ansible'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1 -- 'sudo apt -y update'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1 -- 'sudo apt -y install ansible'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1 -- 'sudo ansible-playbook -i .gitlabci/hosts.gitlabci install.yml'
   dependencies:
     - terraform-ubuntu14
+
+test-geekhomeinside-centos7:
+  stage: Test and Security
+  image:
+    name: google/cloud-sdk:latest
+    entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+  script:
+    - echo $GCLOUD_SERVICE_KEY > ./account.json
+    - gcloud auth activate-service-account --key-file=./account.json
+    - gcloud --quiet config set project $GCP_PROJECT_ID
+    - gcloud --quiet config set compute/zone $GCP_PROJECT_ZONE
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-centos7-1 -- 'docker ps -a'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-centos7-1 -- 'docker volume ls'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-centos7-1 -- 'ls -ltrR /opt/geekhomeinside'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-centos7-1 -- 'chmod +x .gitlabci/security-bench.sh'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-centos7-1 -- '.gitlabci/security-bench.sh'
+  dependencies:
+    - deploy-geekhomeinside-centos7
+
+test-geekhomeinside-ubuntu14:
+  stage: Test and Security
+  image:
+    name: google/cloud-sdk:latest
+    entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+  script:
+    - echo $GCLOUD_SERVICE_KEY > ./account.json
+    - gcloud auth activate-service-account --key-file=./account.json
+    - gcloud --quiet config set project $GCP_PROJECT_ID
+    - gcloud --quiet config set compute/zone $GCP_PROJECT_ZONE
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1 -- 'docker ps -a'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1 -- 'docker volume ls'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1 -- 'ls -ltrR /opt/geekhomeinside'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1 -- 'chmod +x .gitlabci/security-bench.sh'
+    - gcloud compute --quiet --project "$GCP_PROJECT_ID" ssh --zone "$GCP_PROJECT_ZONE" guiadco4geekhomeinside@$CI_PIPELINE_ID-ubuntu14-1 -- '.gitlabci/security-bench.sh'
+  dependencies:
+    - deploy-geekhomeinside-ubuntu14
 
 terraform-destroy-centos7:
   stage: Destroy GCP
@@ -123,13 +149,13 @@ terraform-destroy-centos7:
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
   script:
     - cd terraform-gcp-europe
-    - terraform destroy -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-centos7' -var 'subnetwork-region=europe-west1' -var 'network=centos7-network' -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -var 'disk-size=20' -auto-approve
+    - terraform destroy -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var "instance-name=$CI_PIPELINE_ID-centos7" -var 'subnetwork-region=europe-west1' -var "network=$CI_PIPELINE_ID-centos7" -var 'vm_type=n1-standard-2' -var 'os=centos-7-v20180815' -var 'disk-size=20' -auto-approve
   cache:
     key: "TERRAFORM-CENTOS7-$CI_PIPELINE_ID"
     paths:
       - terraform-gcp-europe/
   dependencies:
-    - deploy-geekhomeinside-centos7
+    - test-geekhomeinside-centos7
 
 terraform-destroy-ubuntu14:
   stage: Destroy GCP
@@ -140,10 +166,10 @@ terraform-destroy-ubuntu14:
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
   script:
     - cd terraform-gcp-europe
-    - terraform destroy -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var 'instance-name=geekhomeinside-ubuntu14' -var 'subnetwork-region=europe-west1' -var 'network=ubuntu14-network' -var 'vm_type=n1-standard-2' -var 'os=ubuntu-1404-trusty-v20181022' -var 'disk-size=20' -auto-approve
+    - terraform destroy -var "project-name=$GCP_PROJECT_ID" -var 'vmcount=1' -var "region=$GCP_PROJECT_ZONE" -var "instance-name=$CI_PIPELINE_ID-ubuntu14" -var 'subnetwork-region=europe-west1' -var "network=$CI_PIPELINE_ID-ubuntu14" -var 'vm_type=n1-standard-2' -var 'os=ubuntu-1404-trusty-v20181022' -var 'disk-size=20' -auto-approve
   cache:
     key: "TERRAFORM-ubuntu14-$CI_PIPELINE_ID"
     paths:
       - terraform-gcp-europe/
   dependencies:
-    - deploy-geekhomeinside-ubuntu14
+    - test-geekhomeinside-ubuntu14

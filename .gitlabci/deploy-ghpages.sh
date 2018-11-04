@@ -23,6 +23,15 @@ if [ "$CI_COMMIT_REF_NAME" != "$SOURCE_BRANCH" ]; then
     exit 0
 fi
 
+# Clone Github Repository
+git clone https://guiadco:$GITHUB_ACCESS_TOKEN@github.com/guiadco/geekhomeinside.git build
+
+# Go inside build Folder
+cd build
+
+# Install virtualenv prerequisite
+pip install --user virtualenv
+
 # Save some useful information
 REPO=`git config remote.origin.url`
 SSH_REPO=${REPO/https:\/\/github.com\//git@github.com:}
