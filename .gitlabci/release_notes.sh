@@ -19,7 +19,7 @@ then
   exit 1
 else
   curl \
-    "https://api.github.com/repos/actiniumio/allspark/milestones/$milestone_id" \
+    "https://api.github.com/repos/geekhomeinside/oneforall/milestones/$milestone_id" \
     --data "{\"title\": \"$milestone_name\", \"state\": \"closed\"}" \
     -X PATCH \
     -H "Authorization: token $GREN_GITHUB_TOKEN"  \
