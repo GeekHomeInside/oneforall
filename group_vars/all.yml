@@ -52,8 +52,3 @@ allspark_kodidb:
 
 allspark_keepass:
   enabled: false
-
-### Release configuration
-# Should not be here
-allspark_release_tmp_directory: /opt/geekhomeinside/release
-allspark_release_destination: /opt/geekhomeinside.tar.gz
