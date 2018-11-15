@@ -1,5 +1,5 @@
-[![Gitlab-CI](https://gitlab.com/guiadco/geekhomeinside/badges/master/build.svg)](https://gitlab.com/guiadco/geekhomeinside/pipelines)
+[![Gitlab-CI](https://gitlab.com/geekhomeinside/oneforall/badges/master/build.svg)](https://gitlab.com/geekhomeinside/oneforall/pipelines)
 
-# GeekHomeInside
+# OneForAll
 
 Docker based Home toolbox, see the [Documentation](https://geekhomeinside.github.io/oneforall/) for informations.
