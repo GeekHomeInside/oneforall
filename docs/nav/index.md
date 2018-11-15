@@ -1,3 +1,3 @@
-# GeekHomeInside
+# OneForAll
 
-[![Gitlab-CI](https://gitlab.com/guiadco/geekhomeinside/badges/master/build.svg)](https://gitlab.com/guiadco/geekhomeinside)
+[![Gitlab-CI](https://gitlab.com/geekhomeinside/oneforall/badges/master/build.svg)](https://gitlab.com/geekhomeinside/oneforall/pipelines)
