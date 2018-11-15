@@ -24,7 +24,7 @@ if [ "$CI_COMMIT_REF_NAME" != "$SOURCE_BRANCH" ]; then
 fi
 
 # Clone Github Repository
-git clone https://guiadco:$GITHUB_ACCESS_TOKEN@github.com:GeekHomeInside/oneforall.git build
+git clone https://guiadco:$GITHUB_ACCESS_TOKEN@github.com/GeekHomeInside/oneforall.git build
 
 # Go inside build Folder
 cd build
