@@ -1,2 +1,2 @@
-docker-py>=1.7.0
-pyopenssl>=0.15
+docker-py==1.10.6
+pyopenssl==19.0.0
