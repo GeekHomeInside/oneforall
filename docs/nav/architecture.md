@@ -29,14 +29,7 @@ Allspark is compatible with:
   - Debian 8 or above
 
 ## Playbooks
-- `release.yml`
-
-> Package an OneForAll release in a `.tar.gz` file
-
-- `setup.yml`
-
-> Load a packaged OneForAll release into the system
 
 - `install.yml`
 
-> Install OneForAll on the machine (either with an internet access or after using `setup.yml` playbook)
+> Install OneForAll on the machine
