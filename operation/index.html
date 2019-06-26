@@ -559,7 +559,7 @@
                 
                 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Pay attention when you launch the <code class="codehilite">backup.yml</code> or <code class="codehilite">restore.yml</code> because playbook automatically <em><strong>stop and start</strong></em> the container to <em><strong>keep all the data safe</strong></em>.</p>
+<p>Pay attention when you launch the <code class="codehilite"><span class="n">backup</span><span class="p">.</span><span class="n">yml</span></code> or <code class="codehilite"><span class="n">restore</span><span class="p">.</span><span class="n">yml</span></code> because playbook automatically <em><strong>stop and start</strong></em> the container to <em><strong>keep all the data safe</strong></em>.</p>
 </div>
 <h2 id="backup-guide">Backup guide</h2>
 <h3 id="requirements">Requirements</h3>
@@ -576,7 +576,7 @@
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You can change the release destination (default: <code class="codehilite">/opt/OneForAll/backup</code>) like so:
+<p>You can change the release destination (default: <code class="codehilite"><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">OneForAll</span><span class="o">/</span><span class="n">backup</span></code>) like so:
 <div class="codehilite"><pre><span></span>ansible-playbook -i hosts backup.yml --extra-vars <span class="s1">&#39;allspark_backup_directory=/tmp/OneForAll_backup&#39;</span>
 </pre></div></p>
 </div>

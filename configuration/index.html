@@ -458,12 +458,12 @@
                 <h1 id="configuration">Configuration</h1>
 <h2 id="group_vars">Group_vars</h2>
 <ul>
-<li>Edit the file <code class="codehilite">group_vars/all.yml</code> to fit with
+<li>Edit the file <code class="codehilite"><span class="n">group_vars</span><span class="o">/</span><span class="k">all</span><span class="p">.</span><span class="n">yml</span></code> to fit with
 your needs, like:</li>
-<li>The <code class="codehilite">allspark_root_domain</code> to use your domain name
+<li>The <code class="codehilite"><span class="n">allspark_root_domain</span></code> to use your domain name
     (each component will be exposed as a subdomain).</li>
-<li>The <code class="codehilite">allspark_docker_version</code> to choose the docker version you want.</li>
-<li>Enable or disable component using their <code class="codehilite">enabled</code> boolean toggle.</li>
+<li>The <code class="codehilite"><span class="n">allspark_docker_version</span></code> to choose the docker version you want.</li>
+<li>Enable or disable component using their <code class="codehilite"><span class="n">enabled</span></code> boolean toggle.</li>
 </ul>
 <div class="codehilite"><pre><span></span><span class="nt">allspark_monitoring</span><span class="p">:</span>
   <span class="nt">enabled</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
@@ -472,10 +472,10 @@ your needs, like:</li>
 <h3 id="https">HTTPS</h3>
 <p>In order to provide HTTPS, you can either :</p>
 <ul>
-<li>Enable self signed certificates by activating the <code class="codehilite">allspark_haproxy.ssl.enabled</code> and <code class="codehilite">allspark_haproxy.ssl.selfsigned.enabled</code> flags.</li>
-<li>Import a certificate from your control machine : enable <code class="codehilite">allspark_haproxy.ssl.enabled</code>,
-set the <code class="codehilite">allspark_haproxy.ssl.certificates_directory</code> variable to a folder on the control machine
-containing PEM certificates named like their endpoint (e.g: <code class="codehilite">infra.allspark.localhost.pem</code>)</li>
+<li>Enable self signed certificates by activating the <code class="codehilite"><span class="n">allspark_haproxy</span><span class="p">.</span><span class="n">ssl</span><span class="p">.</span><span class="n">enabled</span></code> and <code class="codehilite"><span class="n">allspark_haproxy</span><span class="p">.</span><span class="n">ssl</span><span class="p">.</span><span class="n">selfsigned</span><span class="p">.</span><span class="n">enabled</span></code> flags.</li>
+<li>Import a certificate from your control machine : enable <code class="codehilite"><span class="n">allspark_haproxy</span><span class="p">.</span><span class="n">ssl</span><span class="p">.</span><span class="n">enabled</span></code>,
+set the <code class="codehilite"><span class="n">allspark_haproxy</span><span class="p">.</span><span class="n">ssl</span><span class="p">.</span><span class="n">certificates_directory</span></code> variable to a folder on the control machine
+containing PEM certificates named like their endpoint (e.g: <code class="codehilite"><span class="n">infra</span><span class="p">.</span><span class="n">allspark</span><span class="p">.</span><span class="n">localhost</span><span class="p">.</span><span class="n">pem</span></code>)</li>
 </ul>
 <p>You can also do a mix of both, imported certificates will be picked over generated ones,
 allowing you to import certificates for some of the endpoints and let Allspark generate
@@ -490,10 +490,10 @@ e.g:
 <h2 id="downloads">Downloads</h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You can customize the image or tag for a component by overriding the <code class="codehilite">component_image</code> and <code class="codehilite">component_tag</code>, using either :</p>
+<p>You can customize the image or tag for a component by overriding the <code class="codehilite"><span class="n">component_image</span></code> and <code class="codehilite"><span class="n">component_tag</span></code>, using either :</p>
 <ul>
 <li><a href="https://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html#passing-variables-on-the-command-line">Ansible extra vars</a></li>
-<li>Add those variables to your <code class="codehilite">group_vars/all.yml</code> file.</li>
+<li>Add those variables to your <code class="codehilite"><span class="n">group_vars</span><span class="o">/</span><span class="k">all</span><span class="p">.</span><span class="n">yml</span></code> file.</li>
 </ul>
 <p>You can access the complete list of available components in the <a href="https://github.com/actiniumio/allspark/blob/master/roles/download/defaults/main.yml">roles/downloads/defaults/main.yml</a> file.</p>
 </div>
